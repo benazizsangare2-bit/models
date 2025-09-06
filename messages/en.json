@@ -1,0 +1,223 @@
+{
+  "navigation": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "gallery": "Gallery",
+    "contact": "Contact",
+    "login": "Login",
+    "signup": "Sign Up"
+  },
+  "homepage": {
+    "hero": {
+      "title1": "Models ",
+      "title2": "Hostesses",
+      "subtitle1": "We recruit elegant and professional models for fashion shows, photoshoots, and launches, guaranteeing high-quality services.",
+      "subtitle2": "Our hostesses embody style, hospitality, and flexibility for your corporate events, offering excellent service that reflects your brand.",
+      "getStarted": "Ready to start your modeling career?",
+      "getStartedButton": "🌟 Get Started as a Model",
+      "login": "Login",
+      "signup": "Sign Up"
+    }
+  },
+  "gallery": {
+    "title1": "Our ",
+    "title2": "Gallery",
+    "subtitle": "Discover our exceptional models and hostesses. Each professional brings unique talent, experience, and personality to make your event unforgettable.",
+    "filters": {
+      "category": "Category:",
+      "results": "results found",
+      "result": "result found"
+    },
+    "categories": {
+      "all": "All",
+      "models": "Models",
+      "hostesses": "Hostesses"
+    },
+    "modelCard": {
+      "nationality": "Nationality:",
+      "city": "City:",
+      "sex": "Sex:",
+      "height": "Height:",
+      "shoeSize": "Shoe Size:",
+      "eyes": "Eyes:",
+      "hair": "Hair:"
+    },
+    "noResults": {
+      "title": "No Results Found",
+      "description": "Try adjusting your filters to see more results.",
+      "clearFilters": "Clear Filters"
+    },
+    "cta": {
+      "title": "Can't Find What You're Looking For?",
+      "description": "Our team can help you find the perfect match for your specific requirements",
+      "contactUs": "Contact Us",
+      "viewServices": "View Services"
+    }
+  },
+  "signup": {
+    "title": "Create Your Account",
+    "subtitle": "Join Elite Models and start your journey today",
+    "form": {
+      "email": "Email Address *",
+      "emailPlaceholder": "Enter your email address",
+      "createAccount": "Create Account",
+      "creatingAccount": "Creating Account...",
+      "alreadyHaveAccount": "Already have an account?",
+      "signInHere": "Sign in here",
+      "orSignUpWith": "Or sign up with"
+    },
+    "social": {
+      "google": "Google",
+      "twitter": "Twitter"
+    }
+  },
+  "modelRegistration": {
+    "title": "Models & Hostesses Registration form",
+    "subtitle": "Join our exclusive network of professional models",
+    "backToHome": "Back to Home",
+    "steps": {
+      "personalInfo": {
+        "title": "Personal Info",
+        "description": "Basic information"
+      },
+      "profileExperience": {
+        "title": "Profile & Experience",
+        "description": "Professional details"
+      },
+      "documentVerification": {
+        "title": "Document Verification",
+        "description": "Identity verification"
+      },
+      "livenessVerification": {
+        "title": "Liveness Verification",
+        "description": "Face verification"
+      }
+    },
+    "form": {
+      "personalInfo": {
+        "title": "Personal Information",
+        "firstName": "First Name *",
+        "lastName": "Last Name *",
+        "username": "Username *",
+        "email": "Email *",
+        "whatsapp": "WhatsApp Number *",
+        "dateOfBirth": "Date of Birth *",
+        "gender": "Gender *",
+        "genderOptions": {
+          "select": "Select gender",
+          "female": "Female",
+          "male": "Male",
+          "other": "Other"
+        },
+        "nationality": "Nationality *",
+        "street": "Street Address *",
+        "city": "City *",
+        "residenceCountry": "Residence Country *",
+        "selectCountry": "Select country"
+      },
+      "profileExperience": {
+        "title": "Profile & Experience",
+        "experience": "Experience *",
+        "experiencePlaceholder": "Describe your modeling experience, training, and achievements...",
+        "height": "Height (cm) *",
+        "weight": "Weight (kg) *",
+        "hairColor": "Hair Color *",
+        "selectHairColor": "Select hair color",
+        "eyeColor": "Eye Color *",
+        "selectEyeColor": "Select eye color",
+        "waist": "Waist (cm) *",
+        "hips": "Hips (cm) *",
+        "profilePhoto": "Profile Photo *",
+        "additionalPhotos": "Additional Photos (up to 5)",
+        "additionalPhotosDescription": "Add up to 5 photos to showcase your profile",
+        "socialMedia": "Social Media Links",
+        "instagram": "Instagram",
+        "facebook": "Facebook",
+        "twitter": "Twitter",
+        "linkedin": "LinkedIn"
+      },
+      "documentVerification": {
+        "title": "Document Verification",
+        "uploadInfo": "Upload a government-issued ID to verify your identity.",
+        "acceptedDocuments": "We accept passports, driver's licenses, and national ID cards.",
+        "important": "Important:",
+        "importantPoints": [
+          "Your ID will be scanned for personal data extraction.",
+          "Please provide the original ID; copies or screenshots are not accepted.",
+          "Ensure all information is visible; damaged or expired IDs are not accepted."
+        ],
+        "documentIssuerCountry": "Document Issuer Country *",
+        "documentType": "Document Type *",
+        "selectDocumentType": "Select document type",
+        "frontOfDocument": "Front of Document *",
+        "backOfDocument": "Back of Document *"
+      },
+      "livenessVerification": {
+        "title": "Liveness Verification",
+        "description": "This step helps us confirm that you're a real person. Follow the simple instructions to complete the verification.",
+        "cameraRequired": "Camera and connection are required for liveness verification.",
+        "startCamera": "Click the button below to start camera verification",
+        "startCameraButton": "Start Camera",
+        "verifying": "Verifying...",
+        "stopCameraButton": "Stop Camera",
+        "privacyNote": "Privacy Note: Your webcam data is processed securely and locally. No video is stored, only verification results."
+      },
+      "navigation": {
+        "previous": "Previous",
+        "next": "Next",
+        "submitApplication": "Submit Application",
+        "submitting": "Submitting..."
+      }
+    },
+    "options": {
+      "hairColors": {
+        "black": "Black",
+        "brown": "Brown",
+        "blonde": "Blonde",
+        "red": "Red",
+        "auburn": "Auburn",
+        "graySilver": "Gray/Silver",
+        "other": "Other"
+      },
+      "eyeColors": {
+        "brown": "Brown",
+        "blue": "Blue",
+        "green": "Green",
+        "hazel": "Hazel",
+        "gray": "Gray",
+        "amber": "Amber",
+        "other": "Other"
+      },
+      "documentTypes": {
+        "nationalId": "National ID Card",
+        "passport": "Passport",
+        "driversLicense": "Driver's License"
+      }
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "close": "Close",
+    "submit": "Submit",
+    "reset": "Reset",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "refresh": "Refresh",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "continue": "Continue",
+    "finish": "Finish",
+    "required": "Required",
+    "optional": "Optional"
+  }
+}

@@ -1,0 +1,219 @@
+{
+  "navigation": {
+    "home": "Accueil",
+    "about": "À propos",
+    "services": "Services",
+    "gallery": "Galerie",
+    "contact": "Contact",
+    "login": "Connexion",
+    "signup": "S'inscrire"
+  },
+  "homepage": {
+    "hero": {
+      "title1": "Mannequins",
+      "title2": " Hôtesses",
+      "subtitle1": "Nous recrutons des mannequins élégants et professionnels pour les défilés de mode, les séances photo et les lancements, garantissant des services de haute qualité.",
+      "subtitle2": "Nos hôtesses incarnent le style, l'hospitalité et la flexibilité pour vos événements d'entreprise, offrant un excellent service qui reflète votre marque.",
+      "getStarted": "Prêt(e) à commencer votre carrière de mannequin ?",
+      "getStartedButton": "🌟 Commencer comme Mannequin",
+      "login": "Connexion",
+      "signup": "S'inscrire"
+    }
+  },
+  "gallery": {
+    "title1": "Notre",
+    "title2": "Galerie",
+    "subtitle": "Découvrez nos mannequins et hôtesses exceptionnels. Chaque professionnel apporte un talent unique, de l'expérience et une personnalité pour rendre votre événement inoubliable.",
+    "filters": {
+      "category": "Catégorie :",
+      "results": "résultats trouvés",
+      "result": "résultat trouvé"
+    },
+    "categories": {
+      "all": "Tout",
+      "models": "Mannequins",
+      "hostesses": "Hôtesses"
+    },
+    "modelCard": {
+      "nationality": "Nationalité :",
+      "city": "Ville :",
+      "sex": "Sexe :",
+      "height": "Taille :",
+      "shoeSize": "Pointure :",
+      "eyes": "Yeux :",
+      "hair": "Cheveux :"
+    },
+    "noResults": {
+      "title": "Aucun résultat trouvé",
+      "description": "Essayez d'ajuster vos filtres pour voir plus de résultats.",
+      "clearFilters": "Effacer les filtres"
+    },
+    "cta": {
+      "title": "Vous ne trouvez pas ce que vous cherchez ?",
+      "description": "Notre équipe peut vous aider à trouver la correspondance parfaite pour vos besoins spécifiques",
+      "contactUs": "Nous contacter",
+      "viewServices": "Voir les services"
+    }
+  },
+  "signup": {
+    "title": "Créer votre compte",
+    "subtitle": "Rejoignez Elite Models et commencez votre voyage aujourd'hui",
+    "form": {
+      "email": "Adresse e-mail *",
+      "emailPlaceholder": "Entrez votre adresse e-mail",
+      "createAccount": "Créer un compte",
+      "creatingAccount": "Création du compte...",
+      "alreadyHaveAccount": "Vous avez déjà un compte ?",
+      "signInHere": "Connectez-vous ici",
+      "orSignUpWith": "Ou inscrivez-vous avec"
+    }
+  },
+  "modelRegistration": {
+    "title": "Formulaire d'inscription Mannequins & Hôtesses",
+    "subtitle": "Rejoignez notre réseau exclusif de mannequins professionnels",
+    "backToHome": "Retour à l'accueil",
+    "steps": {
+      "personalInfo": {
+        "title": "Informations personnelles",
+        "description": "Informations de base"
+      },
+      "profileExperience": {
+        "title": "Profil & Expérience",
+        "description": "Détails professionnels"
+      },
+      "documentVerification": {
+        "title": "Vérification des documents",
+        "description": "Vérification d'identité"
+      },
+      "livenessVerification": {
+        "title": "Vérification de vivacité",
+        "description": "Vérification faciale"
+      }
+    },
+    "form": {
+      "personalInfo": {
+        "title": "Informations personnelles",
+        "firstName": "Prénom *",
+        "lastName": "Nom de famille *",
+        "username": "Nom d'utilisateur *",
+        "email": "E-mail *",
+        "whatsapp": "Numéro WhatsApp *",
+        "dateOfBirth": "Date de naissance *",
+        "gender": "Genre *",
+        "genderOptions": {
+          "select": "Sélectionner le genre",
+          "female": "Femme",
+          "male": "Homme",
+          "other": "Autre"
+        },
+        "nationality": "Nationalité *",
+        "street": "Adresse *",
+        "city": "Ville *",
+        "residenceCountry": "Pays de résidence *",
+        "selectCountry": "Sélectionner le pays"
+      },
+      "profileExperience": {
+        "title": "Profil & Expérience",
+        "experience": "Expérience *",
+        "experiencePlaceholder": "Décrivez votre expérience de mannequinat, formation et réalisations...",
+        "height": "Taille (cm) *",
+        "weight": "Poids (kg) *",
+        "hairColor": "Couleur des cheveux *",
+        "selectHairColor": "Sélectionner la couleur des cheveux",
+        "eyeColor": "Couleur des yeux *",
+        "selectEyeColor": "Sélectionner la couleur des yeux",
+        "waist": "Tour de taille (cm) *",
+        "hips": "Tour de hanches (cm) *",
+        "profilePhoto": "Photo de profil *",
+        "additionalPhotos": "Photos supplémentaires (jusqu'à 5)",
+        "additionalPhotosDescription": "Ajoutez jusqu'à 5 photos pour présenter votre profil",
+        "socialMedia": "Liens des réseaux sociaux",
+        "instagram": "Instagram",
+        "facebook": "Facebook",
+        "twitter": "Twitter",
+        "linkedin": "LinkedIn"
+      },
+      "documentVerification": {
+        "title": "Vérification des documents",
+        "uploadInfo": "Téléchargez une pièce d'identité gouvernementale pour vérifier votre identité.",
+        "acceptedDocuments": "Nous acceptons les passeports, permis de conduire et cartes d'identité nationales.",
+        "important": "Important :",
+        "importantPoints": [
+          "Votre pièce d'identité sera scannée pour l'extraction des données personnelles.",
+          "Veuillez fournir la pièce d'identité originale ; les copies ou captures d'écran ne sont pas acceptées.",
+          "Assurez-vous que toutes les informations sont visibles ; les pièces d'identité endommagées ou expirées ne sont pas acceptées."
+        ],
+        "documentIssuerCountry": "Pays émetteur du document *",
+        "documentType": "Type de document *",
+        "selectDocumentType": "Sélectionner le type de document",
+        "frontOfDocument": "Recto du document *",
+        "backOfDocument": "Verso du document *"
+      },
+      "livenessVerification": {
+        "title": "Vérification de vivacité",
+        "description": "Cette étape nous aide à confirmer que vous êtes une vraie personne. Suivez les instructions simples pour compléter la vérification.",
+        "cameraRequired": "Caméra et connexion requises pour la vérification de vivacité.",
+        "startCamera": "Cliquez sur le bouton ci-dessous pour commencer la vérification par caméra",
+        "startCameraButton": "Démarrer la caméra",
+        "verifying": "Vérification en cours...",
+        "stopCameraButton": "Arrêter la caméra",
+        "privacyNote": "Note de confidentialité : Vos données webcam sont traitées de manière sécurisée et locale. Aucune vidéo n'est stockée, seuls les résultats de vérification."
+      },
+      "navigation": {
+        "previous": "Précédent",
+        "next": "Suivant",
+        "submitApplication": "Soumettre la candidature",
+        "submitting": "Soumission en cours..."
+      }
+    },
+    "options": {
+      "hairColors": {
+        "black": "Noir",
+        "brown": "Brun",
+        "blonde": "Blond",
+        "red": "Roux",
+        "auburn": "Auburn",
+        "graySilver": "Gris/Argenté",
+        "other": "Autre"
+      },
+      "eyeColors": {
+        "brown": "Marron",
+        "blue": "Bleu",
+        "green": "Vert",
+        "hazel": "Noisette",
+        "gray": "Gris",
+        "amber": "Ambre",
+        "other": "Autre"
+      },
+      "documentTypes": {
+        "nationalId": "Carte d'identité nationale",
+        "passport": "Passeport",
+        "driversLicense": "Permis de conduire"
+      }
+    }
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "view": "Voir",
+    "close": "Fermer",
+    "submit": "Soumettre",
+    "reset": "Réinitialiser",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "sort": "Trier",
+    "refresh": "Actualiser",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "continue": "Continuer",
+    "finish": "Terminer",
+    "required": "Requis",
+    "optional": "Optionnel"
+  }
+}
