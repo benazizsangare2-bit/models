@@ -6,6 +6,7 @@ import OrderService from "../components/orderService";
 import WhyChooseUs from "../components/whyChooseUs";
 import AboutUs from "../components/AboutUs";
 import HeroSection from "../components/HeroSection";
+import BackgroundPatterns from "../components/BackgroundPatterns";
 
 // ✅ Let Next.js infer params, but unwrap the Promise
 export default function HomePage({
@@ -16,12 +17,13 @@ export default function HomePage({
   const { locale } = params;
 
   return (
-    <div className="min-h-screen">
+    <div className="relative min-h-screen bg-gray-50">
+      <BackgroundPatterns />
       <HeroSection locale={locale} />
       <AboutUs />
       <WhyChooseUs />
-      <OrderService />
-      <Ourmodels />
+      <OrderService locale={locale} />
+      <Ourmodels locale={locale} />
       <Partners />
       <Footer />
     </div>

@@ -1,13 +1,18 @@
+"use client";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
-import Link from "next/link";
-export default function Ourmodels() {
-  // Create an array of model data
+import { motion } from "framer-motion";
+import { fadeInUp } from "./motion";
+
+export default function Ourmodels({ locale }: { locale: string }) {
+  const t = useTranslations("ourmodels");
+
   const models = [
     {
       id: 1,
       name: "Sophia Laurent",
       role: "Fashion Model",
-      image: "/Images/model5.jpg", // Path in public folder
+      image: "/Images/model5.jpg",
       category: "Fashion & Runway",
     },
     {
@@ -34,58 +39,89 @@ export default function Ourmodels() {
   ];
 
   return (
-    <section className="py-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold font-delius text-gray-900 mb-4">
-            Our{" "}
-            <span className="font-dancing text-5xl text-rose-300"> Models</span>
-            <span className="font-dancing text-5xl text-gray-400"> & </span>
-            <span className="font-dancing text-5xl text-pink-600">
-              {" "}
-              Hostesses
+    <section className="relative bg-gray-50">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+        {/* Title */}
+        <div className="text-center mb-20">
+          <motion.h2
+            variants={fadeInUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            className="text-3xl sm:text-5xl font-extrabold font-delius text-gray-900 mb-6"
+          >
+            {t("title1")}{" "}
+            <span className="font-dancing text-6xl text-rose-400">
+              {t("title2")}
+            </span>{" "}
+            <span className="font-dancing text-6xl text-gray-400">&</span>{" "}
+            <span className="font-dancing text-6xl text-pink-600">
+              {t("title3")}
             </span>
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto font-delius">
-            Meet some of our exceptional professionals ready to make your event
-            unforgettable
-          </p>
+          </motion.h2>
+          <motion.p
+            variants={fadeInUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            className="text-xl text-gray-600 max-w-2xl mx-auto font-delius leading-relaxed"
+          >
+            {t("subtitle")}
+          </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        {/* Models Grid */}
+        <motion.div
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={{
+            visible: {
+              transition: { staggerChildren: 0.15 },
+            },
+          }}
+        >
           {models.map((model) => (
-            <div
+            <motion.div
               key={model.id}
-              className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
+              variants={fadeInUp}
+              className="group relative rounded-3xl bg-white/10 backdrop-blur-lg border border-white/20 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 overflow-hidden"
             >
-              {/* Image Container */}
-              <div className="w-full h-80 relative">
+              {/* Image */}
+              <div className="relative w-full h-96">
                 <Image
                   src={model.image}
                   alt={model.name}
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="object-cover rounded-3xl group-hover:scale-110 transition-transform duration-700"
                 />
-                {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-                {/* Info on Hover */}
-                <div className="absolute bottom-4 left-4 right-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <h4 className="font-semibold text-lg">{model.name}</h4>
-                  <p className="text-sm text-rose-200">{model.role}</p>
-                  <p className="text-xs text-gray-300 mt-1">{model.category}</p>
-                </div>
               </div>
-            </div>
-          ))}
-        </div>
 
-        <div className="text-center font-delius">
-          <Link
-            href="/gallery"
-            className="inline-flex items-center bg-gradient-to-r from-rose-500 to-pink-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:from-rose-600 hover:to-pink-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+              {/* Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"></div>
+
+              {/* Info */}
+              <div className="absolute bottom-6 left-6 right-6 text-white opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">
+                <h4 className="font-semibold text-lg">{model.name}</h4>
+                <p className="text-sm text-rose-200">{model.role}</p>
+                <p className="text-xs text-gray-300 mt-1">{model.category}</p>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Button */}
+        <div className="text-center mt-16">
+          <motion.a
+            href={`/${locale}/gallery`}
+            className="inline-flex items-center bg-gradient-to-r from-rose-500 to-pink-600 text-white px-10 py-4 rounded-full font-semibold text-lg hover:from-rose-600 hover:to-pink-700 transition-all duration-500 shadow-lg hover:shadow-2xl transform hover:-translate-y-1"
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
           >
-            View Full Gallery
+            {t("button")}
             <svg
               className="ml-2 w-5 h-5"
               fill="none"
@@ -99,7 +135,7 @@ export default function Ourmodels() {
                 d="M17 8l4 4m0 0l-4 4m4-4H3"
               />
             </svg>
-          </Link>
+          </motion.a>
         </div>
       </div>
     </section>

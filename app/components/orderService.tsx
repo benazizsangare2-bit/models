@@ -1,5 +1,5 @@
 "use client";
-import localFont from "next/font/local";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import {
@@ -10,31 +10,28 @@ import {
   FaArrowRight,
 } from "react-icons/fa";
 
-export default function OrderService() {
+export default function OrderService({ locale }: { locale: string }) {
+  const t = useTranslations("Service");
   const services = [
     {
-      title: "Professional Models",
-      description:
-        "We provide carefully selected models to meet the needs of advertising campaigns, fashion shows, editorial shoots, and much more. Our models combine charisma, stage presence, and professionalism, providing an impeccable visual representation for each brand.",
-      icon: <FaUmbrellaBeach className="w-8 h-8" />,
+      title: t("title1"),
+      description: t("description1"),
+      icon: <FaUmbrellaBeach className="w-10 h-10" />,
     },
     {
-      title: "Hostesses & Models",
-      description:
-        "Our hostesses and models are trained to provide exceptional hospitality, combining courtesy, elegance, and professionalism. Whether for trade shows, conferences, private or corporate events, our reception staff reflects the excellence we stand for.",
-      icon: <FaBuilding className="w-8 h-8" />,
+      title: t("title2"),
+      description: t("description2"),
+      icon: <FaBuilding className="w-10 h-10" />,
     },
     {
-      title: "Promotion & Street Marketing Services",
-      description:
-        "For promotional campaigns that require a direct and impactful approach, we provide dynamic and experienced teams capable of representing your brand in on-the-ground actions with a commitment that makes a lasting impression.",
-      icon: <FaGlassCheers className="w-8 h-8" />,
+      title: t("title3"),
+      description: t("description3"),
+      icon: <FaGlassCheers className="w-10 h-10" />,
     },
     {
-      title: "Event Coordination",
-      description:
-        "With solid expertise in event management, we handle the planning and organization of your events, guaranteeing flawless execution. Our team provides a turnkey service, from design to implementation, for a memorable event.",
-      icon: <FaCamera className="w-8 h-8" />,
+      title: t("title4"),
+      description: t("description4"),
+      icon: <FaCamera className="w-10 h-10" />,
     },
   ];
 
@@ -50,13 +47,13 @@ export default function OrderService() {
   }, [titles.length]);
 
   return (
-    <section className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-20 max-w-full">
+      <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
         {/* Animated Title Slide */}
         <div className="text-center mb-16">
           <div className="flex items-center justify-center gap-20">
             <span className="text-5xl mb-8 font-semibold text-gray-800 font-delius">
-              Our Services :
+              {t("title")}
             </span>
             <div className="relative h-24 w-[250px] text-black mb-8 flex items-center justify-center">
               {titles.map((title, index) => (
@@ -87,17 +84,16 @@ export default function OrderService() {
           </div>
 
           <p className="text-xl text-gray-600 max-w-3xl mx-auto font-delius">
-            We offer a range of top-notch services, tailored to the specific
-            needs of each client.
+            {t("description")}
           </p>
         </div>
 
-        {/* Services Grid - 4 services */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+        {/* Single-row horizontal list with scroll if needed */}
+        <div className="flex flex-row flex-nowrap gap-10 mb-20 pt-10 overflow-x-auto no-scrollbar pb-2">
           {services.map((service, index) => (
             <div
               key={index}
-              className="relative w-full h-96 rounded-2xl shadow-2xl overflow-hidden group hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-2"
+              className="relative shrink-0 w-[20rem] md:w-[32rem] h-[30rem] rounded-3xl shadow-2xl overflow-hidden group hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-2"
             >
               {/* Gradient background with circles */}
               <div className="absolute inset-0 bg-gradient-to-br from-rose-100 to-pink-300">
@@ -108,16 +104,16 @@ export default function OrderService() {
               </div>
 
               {/* Content */}
-              <div className="relative z-10 p-8 font-delius text">
+              <div className="relative z-10 p-8 font-delius">
                 {/* Icon with gradient background */}
-                <div className="w-16 h-16 bg-gradient-to-r from-rose-500 to-pink-600 rounded-xl flex items-center justify-center mb-6 group-hover:from-rose-600 group-hover:to-pink-700 transition-all duration-300">
-                  <div className="text-white text-3xl">{service.icon}</div>
+                <div className="w-15 h-15 bg-gradient-to-r from-rose-500 to-pink-600 rounded-2xl flex items-center justify-center mb-8 group-hover:from-rose-600 group-hover:to-pink-700 transition-all duration-300">
+                  <div className="text-white text-sm">{service.icon}</div>
                 </div>
 
-                <h3 className="text-2xl font-semibold text-gray-900 mb-3">
+                <h3 className="text-2xl font-semibold text-gray-900 mb-4 leading-snug">
                   {service.title}
                 </h3>
-                <p className="text-gray-700 mb-6 leading-relaxed text-xl">
+                <p className="text-gray-700 mb-8 leading-relaxed text-xl">
                   {service.description}
                 </p>
 
@@ -133,10 +129,10 @@ export default function OrderService() {
         {/* Single Order Service Button at Bottom */}
         <div className="text-center font-delius">
           <Link
-            href={"/contact"}
-            className="bg-gradient-to-r from-rose-500 to-pink-600 text-white px-12 py-5 rounded-2xl font-semibold text-xl hover:from-rose-600 hover:to-pink-700 transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 hover:scale-105 inline-flex items-center"
+            href={`/${locale}/contact`}
+            className="bg-gradient-to-r from-rose-500 to-pink-600 text-white px-12 py-5 rounded-full font-semibold text-xl hover:from-rose-600 hover:to-pink-700 transition-all duration-400 shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 hover:scale-105 inline-flex items-center"
           >
-            Order a Service Now
+            {t("button")}
             <FaArrowRight className="ml-3 w-5 h-5" />
           </Link>
         </div>

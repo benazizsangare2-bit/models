@@ -1,16 +1,33 @@
+"use client";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
+import { motion } from "framer-motion";
+import { fadeInUp } from "./motion";
 
 export default function Partners() {
+  const t = useTranslations("partners");
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16 font-delius">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
-            Our <span className="text-rose-400">Partners</span>
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Trusted by leading brands and organizations worldwide
-          </p>
+          <motion.h2
+            variants={fadeInUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4"
+          >
+            {t("title1")} <span className="text-rose-400">{t("title2")}</span>
+          </motion.h2>
+          <motion.p
+            variants={fadeInUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            className="text-xl text-gray-600 max-w-3xl mx-auto"
+          >
+            {t("description")}{" "}
+          </motion.p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 font-delius">
@@ -38,9 +55,13 @@ export default function Partners() {
               height: 160,
             },
           ].map((partner, index) => (
-            <div
+            <motion.div
               key={index}
               className="text-center p-8 bg-slate-700 rounded-2xl hover:shadow-lg transition-all duration-300 hover:transform hover:-translate-y-1 flex flex-col items-center justify-center"
+              variants={fadeInUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
             >
               {/* Logo Image with Next.js Optimization */}
               <div className="mb-6 flex items-center justify-center">
@@ -58,7 +79,7 @@ export default function Partners() {
                 {partner.name}
               </h3>
               <p className="text-slate-300">{partner.description}</p>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

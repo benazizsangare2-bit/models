@@ -3,8 +3,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import Footer from "../../components/footer";
+import { useTranslations } from "use-intl";
 
 export default function Contact() {
+  const t = useTranslations("contact");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -72,11 +74,10 @@ export default function Contact() {
       <section className="bg-gradient-to-br from-rose-50 to-pink-50 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center font-delius">
           <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6">
-            Contact <span className="text-rose-400">Us</span>
+            {t("title1")} <span className="text-rose-400">{t("title2")}</span>
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Ready to make your event extraordinary? Get in touch with us today.
-            Our team is here to help you find the perfect models and hostesses.
+            {t("subtitle")}
           </p>
         </div>
       </section>
@@ -88,7 +89,7 @@ export default function Contact() {
             {/* Contact Form */}
             <div>
               <h2 className="text-3xl font-bold text-gray-900 mb-8">
-                Send us a Message
+                {t("formtitle")}
               </h2>
 
               {submitStatus === "success" && (
@@ -107,7 +108,7 @@ export default function Contact() {
                       htmlFor="name"
                       className="block text-sm font-medium text-gray-700 mb-2"
                     >
-                      Full Name *
+                      {t("form.name")}
                     </label>
                     <input
                       type="text"
@@ -117,7 +118,7 @@ export default function Contact() {
                       onChange={handleInputChange}
                       required
                       className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent"
-                      placeholder="Your full name"
+                      placeholder={t("form.namePlaceholder")}
                     />
                   </div>
 
@@ -126,7 +127,7 @@ export default function Contact() {
                       htmlFor="email"
                       className="block text-sm font-medium text-gray-700 mb-2"
                     >
-                      Email Address *
+                      {t("form.email")}
                     </label>
                     <input
                       type="email"
@@ -147,7 +148,7 @@ export default function Contact() {
                       htmlFor="phone"
                       className="block text-sm font-medium text-gray-700 mb-2"
                     >
-                      Phone Number
+                      {t("form.phone")}
                     </label>
                     <input
                       type="tel"
@@ -165,7 +166,7 @@ export default function Contact() {
                       htmlFor="company"
                       className="block text-sm font-medium text-gray-700 mb-2"
                     >
-                      Company
+                      {t("form.company")}
                     </label>
                     <input
                       type="text"
@@ -174,7 +175,7 @@ export default function Contact() {
                       value={formData.company}
                       onChange={handleInputChange}
                       className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent"
-                      placeholder="Your company name"
+                      placeholder={t("form.companyPlaceholder")}
                     />
                   </div>
                 </div>
@@ -185,7 +186,7 @@ export default function Contact() {
                       htmlFor="eventType"
                       className="block text-sm font-medium text-gray-700 mb-2"
                     >
-                      Event Type *
+                      {t("form.event")}
                     </label>
                     <select
                       id="eventType"
@@ -195,7 +196,7 @@ export default function Contact() {
                       required
                       className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent"
                     >
-                      <option value="">Select event type</option>
+                      <option value="">{t("form.eventPlaceholder")}</option>
                       {eventTypes.map((type) => (
                         <option key={type} value={type}>
                           {type}
@@ -209,7 +210,7 @@ export default function Contact() {
                       htmlFor="eventDate"
                       className="block text-sm font-medium text-gray-700 mb-2"
                     >
-                      Event Date
+                      {t("form.eventDate")}
                     </label>
                     <input
                       type="date"
@@ -227,7 +228,7 @@ export default function Contact() {
                     htmlFor="message"
                     className="block text-sm font-medium text-gray-700 mb-2"
                   >
-                    Message *
+                    {t("form.description")}
                   </label>
                   <textarea
                     id="message"
@@ -237,7 +238,7 @@ export default function Contact() {
                     required
                     rows={5}
                     className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent"
-                    placeholder="Tell us about your event and requirements..."
+                    placeholder={t("form.descriptionPlaceholder")}
                   />
                 </div>
 
@@ -246,7 +247,7 @@ export default function Contact() {
                   disabled={isSubmitting}
                   className="w-full bg-gradient-to-r from-rose-500 to-pink-600 text-white py-4 px-8 rounded-lg font-semibold text-lg hover:from-rose-600 hover:to-pink-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isSubmitting ? "Sending..." : "Send Message"}
+                  {isSubmitting ? t("form.Sending") : t("form.SendMessage")}
                 </button>
               </form>
             </div>
@@ -254,7 +255,7 @@ export default function Contact() {
             {/* Contact Information */}
             <div>
               <h2 className="text-3xl font-bold text-gray-900 mb-8">
-                Get in Touch
+                {t("infotitle")}
               </h2>
 
               <div className="space-y-8">
@@ -283,7 +284,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                      Office Location
+                      {t("office")}
                     </h3>
                     <p className="text-gray-600">KN 4 Av 22, KIGALI - RWANDA</p>
                   </div>
@@ -308,7 +309,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                      Phone & Email
+                      {t("PhoneEmail")}
                     </h3>
                     <p className="text-gray-600 mb-2">
                       <a
@@ -348,17 +349,17 @@ export default function Contact() {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                      Business Hours
+                      {t("hours")}
                     </h3>
                     <p className="text-gray-600">
-                      Monday - Friday: 8:00 AM - 5:00 PM
+                      {t("monday")}
                       <br />
-                      Saturday: 10:00 AM - 4:00 PM
+                      {t("saturday")}
                       <br />
-                      Sunday: Closed
+                      {t("sunday")}
                       <br />
                       <span className="text-rose-600 font-medium">
-                        24/7 Emergency Support Available
+                        {t("support")}
                       </span>
                     </p>
                   </div>
@@ -451,10 +452,10 @@ export default function Contact() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Frequently Asked <span className="text-rose-400">Questions</span>
+              {t("FAQ1")}<span className="text-rose-400">{t("FAQ2")}</span>
             </h2>
             <p className="text-xl text-gray-600 font-delius">
-              Find answers to common questions about our services
+            {t("FAQSub")}
             </p>
           </div>
 
@@ -462,24 +463,24 @@ export default function Contact() {
             {[
               {
                 question:
-                  "How far in advance should I book models or hostesses?",
+                t("Q1"),
                 answer:
-                  "We recommend booking at least 2-4 weeks in advance for standard events, and 6-8 weeks for large-scale events or during peak seasons.",
+                t("Ans1"),
               },
               {
-                question: "Do you provide services outside of major cities?",
+                question: t("Q2"),
                 answer:
-                  "Yes, we provide services nationwide and internationally. Additional travel fees may apply for locations outside our primary service areas.",
+                t("Ans2"),
               },
               {
-                question: "What is included in your service packages?",
+                question: t("Q3"),
                 answer:
-                  "Our packages include professional staff, basic styling, coordination support, and insurance coverage. Additional services can be customized based on your needs.",
+                t("Ans3"),
               },
               {
-                question: "Can you accommodate last-minute requests?",
+                question: t("Q4"),
                 answer:
-                  "While we always try to accommodate urgent requests, availability may be limited. We recommend contacting us as soon as possible for the best selection.",
+                t("Ans4"),
               },
             ].map((faq, index) => (
               <div key={index} className="bg-white rounded-2xl p-6 shadow-lg">

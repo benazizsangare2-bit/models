@@ -379,12 +379,12 @@ export default function Gallery({ locale }: { locale: string }) {
             >
               {t("gallery.cta.contactUs")}
             </Link>
-            <Link
+            {/* <Link
               href={`/${locale}/services`}
               className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-rose-600 transition-all duration-200"
             >
               {t("gallery.cta.viewServices")}
-            </Link>
+            </Link> */}
           </div>
         </div>
       </section>

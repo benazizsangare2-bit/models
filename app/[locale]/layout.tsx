@@ -1,11 +1,8 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
 import { NextIntlClientProvider } from "next-intl";
+import ClientTransition from "../components/ClientTransition";
 import { getMessages } from "next-intl/server";
 import Header from "../components/Header";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Models & Hostesses",
@@ -26,13 +23,9 @@ export default async function LocaleLayout({
   const messages = await getMessages({ locale });
 
   return (
-    <html lang={locale}>
-      <body className={inter.className}>
-        <NextIntlClientProvider messages={messages}>
-          <Header locale={locale} />
-          {children}
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <NextIntlClientProvider messages={messages}>
+      <Header locale={locale} />
+      <ClientTransition locale={locale}>{children}</ClientTransition>
+    </NextIntlClientProvider>
   );
 }

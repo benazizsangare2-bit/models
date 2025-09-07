@@ -56,8 +56,10 @@
     }
   },
   "signup": {
-    "title": "Create Your Account",
-    "subtitle": "Join Elite Models and start your journey today",
+    "welcome": "Welcome to",
+    "title1": " Models ",
+    "title2": " Hostesses",
+    "subtitle": "Register your account",
     "form": {
       "email": "Email Address *",
       "emailPlaceholder": "Enter your email address",
@@ -66,14 +68,122 @@
       "alreadyHaveAccount": "Already have an account?",
       "signInHere": "Sign in here",
       "orSignUpWith": "Or sign up with"
-    },
-    "social": {
-      "google": "Google",
-      "twitter": "Twitter"
     }
   },
+  "login": {
+    "welcome": "Welcome back to",
+    "title1": "Models",
+    "title2": "Hostesses",
+    "subtitle": "Sign in to your account",
+    "form": {
+      "email": "Email Address",
+      "emailPlaceholder": "Enter your email address",
+      "password": "password",
+      "passwordPlaceholder": "Enter your password",
+      "forgot": "Forgot your password?",
+      "loginin": "Login you in",
+      "signin": "Sign in",
+      "noAccount": "Do not have an account yet?",
+      "signInHere": " Sign up here"
+    }
+  },
+  "contact": {
+    "title1": "Contact",
+    "title2": "Us",
+    "subtitle": "Ready to make your event extraordinary? Get in touch with us today. Our team is here to help you find the perfect models and hostesses.",
+    "formtitle": "Send us a message",
+    "infotitle": "Get in Touch",
+    "office": "Office location",
+    "PhoneEmail": "Phone & Email",
+    "hours": "Business hours",
+    "monday": " Monday - Friday: 8:00 AM - 5:00 PM",
+    "saturday": " Saturday: 10:00 AM - 4:00 PM",
+    "sunday": "Closed",
+    "support": "24/7 Emergency Support Available",
+    "FAQ1": "Frequently Asked ",
+    "FAQ2": "Questions",
+    "FAQSub": "Find answers to common questions about our services",
+    "Q1": "How far in advance should I book models or hostesses?",
+    "Q2": "Do you provide services outside of major cities?",
+    "Q3": "What is included in your service packages?",
+    "Q4": "Can you accommodate last-minute requests?",
+    "Ans1": "We recommend booking at least 2-4 weeks in advance for standard events, and 6-8 weeks for large-scale events or during peak seasons.",
+    "Ans2": "Yes, we provide services nationwide and internationally. Additional travel fees may apply for locations outside our primary service areas.",
+    "Ans3": "Our packages include professional staff, basic styling, coordination support, and insurance coverage. Additional services can be customized based on your needs.",
+    "Ans4": "While we always try to accommodate urgent requests, availability may be limited. We recommend contacting us as soon as possible for the best selection.",
+    "form": {
+      "name": "Full name",
+      "namePlaceholder": "Your full name",
+      "email": "Email address",
+      "phone": "Phone number",
+      "company": "Company",
+      "companyPlaceholder": "Your company",
+      "event": "Event type",
+      "eventPlaceholder": "Select event type",
+      "eventDate": "Event date",
+      "description": "Message",
+      "descriptionPlaceholder": "Tell us about your event and requirements....",
+      "sending": "Sending...",
+      "SendMessage": "Send Message"
+    }
+  },
+  "About": {
+    "title1": "About",
+    "title2": " Us",
+    "subtitle1": "At Models & Hostesses by General Consulting Group, we are more than just a modeling and hostess agency. We embody the elegance, authenticity, and professionalism at the heart of the fashion, events, and hospitality industries.",
+    "subtitle2": "Founded under the General Consulting Group banner, our modeling and hostess services branch is a direct response to the demanding and refined needs of modern businesses seeking a unique and personalized touch for their events, brand campaigns, or promotional activities.",
+    "cardModels": "Models ",
+    "cardHostesses": "Hostesses",
+    "present": "presented by",
+    "visiont1": "Our ",
+    "visiont2": "Vision",
+    "visionDesc": "Our vision is to make Models & Hostesses by General Consulting Group a pillar of the modeling and luxury hospitality industry in Africa, offering distinctive services and a model of excellence to our clients. By leveraging local potential and cultural diversity, we aim to promote the art of modeling and hospitality with deep respect for the talents that make up our team, while meeting the highest international standards.",
+    "valuet1": "Our",
+    "valuet2": "Values",
+    "valueDesc": "We believe in the power of authenticity, diversity, and excellence. These founding values guide our daily work and are part of our commitment to our clients and our talents. We are committed to the growth of our models and hostesses by offering them opportunities for professional development and creating a respectful and stimulating environment.",
+    "commit1": "Our",
+    "commit2": " Commitment to the Future",
+    "commitDesc": "We are committed to building a future where modeling and hospitality are valued professions, promoted within an ethical framework of mutual respect. As pioneers in this sector in Cameroon and Rwanda, we aim to strengthen our position while continuing to train and inspire the next generation of talent in the industry."
+  },
+  "WhyChooseUs": {
+    "title1": "Why",
+    "title2": "Choose Us",
+    "description": "By collaborating with Models & Hostesses by General Consulting Group, you benefit from:",
+    "Subtitle1": "A personalized approach",
+    "description1": "Only the best professionals with extensive experience in the industry.",
+    "Subtitle2": "A team attentive to your needs",
+    "description2": "Round-the-clock customer service to meet your need anytime.",
+    "subtitle3": " Industry expertise that guarantees the success of your projects",
+    "description3": "Access to a worldwide network of professional models and hostesses.",
+    "lastSentence": " Our commitment to quality and our network of partners make us the preferred choice for companies and brands looking to stand out. "
+  },
+  "Service": {
+    "title": "Our Services: ",
+    "description": "We offer a range of top-notch services, tailored to the specific needs of each client.",
+    "title1": "Professional Models",
+    "description1": "We provide carefully selected models to meet the needs of advertising campaigns, fashion shows, editorial shoots, and much more. Our models combine charisma, stage presence, and professionalism, providing an impeccable visual representation for each brand.",
+    "title2": "Hostesses & Models",
+    "description2": "Our hostesses and models are trained to provide exceptional hospitality, combining courtesy, elegance, and professionalism. Whether for trade shows, conferences, private or corporate events, our reception staff reflects the excellence we stand for.",
+    "title3": "Promotion & Street Marketing Services",
+    "description3": "For promotional campaigns that require a direct and impactful approach, we provide dynamic and experienced teams capable of representing your brand in on-the-ground actions with a commitment that makes a lasting impression.",
+    "title4": "Event Coordination",
+    "description4": "With solid expertise in event management, we handle the planning and organization of your events, guaranteeing flawless execution. Our team provides a turnkey service, from design to implementation, for a memorable event.",
+    "button": "Order a Service Now"
+  },
+  "ourmodels": {
+    "title1": "Our",
+    "title2": "Models",
+    "title3": "Hostesses",
+    "subtitle": "Meet some of our exceptional professionals ready to make your event unforgettable",
+    "button": "View Full Gallery"
+  },
+  "partners": {
+    "title1": "Our",
+    "title2": "Partners",
+    "description": "Trusted by leading brands and organizations worldwide"
+  },
   "modelRegistration": {
-    "title": "Models & Hostesses Registration form",
+    "title": "Registration form",
     "subtitle": "Join our exclusive network of professional models",
     "backToHome": "Back to Home",
     "steps": {

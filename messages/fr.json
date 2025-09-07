@@ -56,8 +56,10 @@
     }
   },
   "signup": {
-    "title": "Créer votre compte",
-    "subtitle": "Rejoignez Elite Models et commencez votre voyage aujourd'hui",
+    "welcome": "Bienvenue chez",
+    "title1": " Mannequins",
+    "title2": " Hôtesses",
+    "subtitle": "Creez votre compte",
     "form": {
       "email": "Adresse e-mail *",
       "emailPlaceholder": "Entrez votre adresse e-mail",
@@ -68,8 +70,120 @@
       "orSignUpWith": "Ou inscrivez-vous avec"
     }
   },
+  "login": {
+    "welcome": "Bienvenue chez",
+    "title1": "Mannequins",
+    "title2": "Hôtesses",
+    "subtitle": "Connectez-vous a votre compte",
+    "form": {
+      "email": "Adresse e-mail",
+      "emailPlaceholder": "Entrez votre adresse e-mail",
+      "passwordPlaceholder": "Entrez votre mot de passe",
+      "password": "Mot de passe",
+      "forgot": "Mot de passe oublier?",
+      "loginin": "Connexion en cours...",
+      "signin": "Se connecter",
+      "noAccount": "Vous n'avez pas encore de compte ?",
+      "signInHere": " Incrivez-vous ici"
+    }
+  },
+  "contact": {
+    "title1": "Contactez",
+    "title2": "-Nous",
+    "subtitle": "Pret a rendre votre evenement extraordinaire? Contactez-nous aujourd'hui. Notre equipe est la pour vous aider a trouver les mannequins et hotesses parfaits.",
+    "formtitle": "Envoyez nous un message",
+    "infotitle": "Entrez en contact diretement",
+    "office": "Emplacement du bureau",
+    "PhoneEmail": "Telephone & Email",
+    "hours": "Heures d'ouvertures",
+    "monday": "Lundi - Vendredi: 08h:00 - 17h:00",
+    "saturday": "Samedi: 10h00 - 16h00",
+    "sunday": "Fermer",
+    "support": "24/7 Soutien d'urgence disponible",
+    "FAQ1": "Questions ",
+    "FAQ2": " frequemment Posees",
+    "FAQSub": "Trouvez les reponses au question courantes sur nos services.",
+    "Q1": "Combien de temps a l'avance devrais-je reserver un mannequin ou une hotesse?",
+    "Q2": "Est-ce-que vos services sont aussi displone a l'exterrieur des villes principales?",
+    "Q3": "Qu'est ce qui est inclus dans votre pack que service?",
+    "Q4": "Etes vous disposes pour les requetes de derniere minute?",
+    "Ans1": " Nous recommandons de réserver au moins 2 à 4 semaines à l'avance pour les événements standard et 6 à 8 semaines pour les événements de grande envergure ou en haute saison.",
+    "Ans2": " Oui, nous proposons nos services à l'échelle nationale et internationale. Des frais de déplacement supplémentaires peuvent s'appliquer pour les lieux situés en dehors de nos zones de service principales.",
+    "Ans3": " Nos forfaits incluent une équipe professionnelle, un service de stylisme de base, une assistance à la coordination et une assurance. Des services supplémentaires peuvent être personnalisés en fonction de vos besoins. ",
+    "Ans4": " Bien que nous nous efforcions toujours de répondre aux demandes urgentes, les disponibilités peuvent être limitées. Nous vous recommandons de nous contacter au plus vite pour bénéficier de la meilleure sélection. ",
+    "form": {
+      "name": "Nom complet",
+      "namePlaceholder": "Votre nom complet",
+      "email": "Address email",
+      "phone": "Numero de telephone",
+      "company": "Compagnie",
+      "companyPlaceholder": "votre compagnie",
+      "event": "Type d'evenement",
+      "eventPlaceholder": "Selectionner un Type d'evenement",
+      "eventDate": "Date de l'evenement",
+      "description": "Message",
+      "descriptionPlaceholder": "Dites nous plus a propos de votre evenement....",
+      "sending": "Envoie en cours...",
+      "SendMessage": "Envoyer le message"
+    }
+  },
+  "About": {
+    "title1": "À ",
+    "title2": "propos",
+    "subtitle1": "Chez Models & Hostesses by General Consulting Group, nous sommes plus qu'une simple agence de mannequins et d'hôtesses. Nous incarnons l'élégance, l'authenticité et le professionnalisme au cœur des industries de la mode, de l'événementiel et de l'hospitalité.",
+    "subtitle2": "Fondée sous la bannière de General Consulting Group, notre branche de services de mannequins et d'hôtesses est une réponse directe aux besoins exigeants et raffinés des entreprises modernes qui recherchent une touche unique et personnalisée pour leurs événements, leurs campagnes de marque ou leurs activités promotionnelles.",
+    "cardModels": "Mannequins ",
+    "cardHostesses": "Hôtesses",
+    "present": "présenté par",
+    "visiont1": "Notre ",
+    "visiont2": "Vision",
+    "visionDesc": "Notre vision est de faire de Models & Hostesses by General Consulting Group un pilier de l'industrie du mannequinat et de l'hôtellerie de luxe en Afrique, en offrant des services distinctifs et un modèle d'excellence à nos clients. En tirant parti du potentiel local et de la diversité culturelle, nous visons à promouvoir l'art du mannequinat et de l'hospitalité dans le respect profond des talents qui composent notre équipe, tout en répondant aux normes internationales les plus élevées.",
+    "valuet1": "Nos ",
+    "valuet2": "Valeurs",
+    "valueDesc": "Nous croyons au pouvoir de l'authenticité, de la diversité et de l'excellence. Ces valeurs fondatrices guident notre travail quotidien et font partie de notre engagement envers nos clients et nos talents. Nous nous engageons à favoriser la croissance de nos mannequins et hôtesses en leur offrant des opportunités de développement professionnel et en créant un environnement respectueux et stimulant.",
+    "commit1": "Notre ",
+    "commit2": "Engagement pour l'Avenir",
+    "commitDesc": "Nous nous engageons à construire un avenir où le mannequinat et l'hospitalité sont des professions valorisées, promues dans un cadre éthique de respect mutuel. En tant que pionniers dans ce secteur au Cameroun et au Rwanda, nous visons à renforcer notre position tout en continuant à former et à inspirer la prochaine génération de talents dans l'industrie."
+  },
+  "WhyChooseUs": {
+    "title1": "Pourquoi",
+    "title2": "nous choisir",
+    "description": "En collaborant avec Models & Hostesses by General Consulting Group, vous bénéficiez de :",
+    "Subtitle1": "Une approche personnalisée",
+    "description1": "Seuls les meilleurs professionnels avec une vaste expérience dans l'industrie.",
+    "Subtitle2": "Une équipe à l'écoute de vos besoins",
+    "description2": "Un service client disponible 24h/24 pour répondre à vos besoins à tout moment.",
+    "subtitle3": "Une expertise de l'industrie qui garantit le succès de vos projets",
+    "description3": "L'accès à un réseau mondial de mannequins et d'hôtesses professionnels.",
+    "lastSentence": "Notre engagement envers la qualité et notre réseau de partenaires font de nous le choix préféré des entreprises et des marques qui cherchent à se démarquer."
+  },
+  "Service": {
+    "title": "Nos Services : ",
+    "description": "Nous offrons une gamme de services haut de gamme, adaptés aux besoins spécifiques de chaque client.",
+    "title1": "Mannequins professionnels",
+    "description1": "Nous fournissons des mannequins soigneusement sélectionnés pour répondre aux besoins des campagnes publicitaires, des défilés de mode, des séances photo éditoriales et bien plus encore. Nos mannequins allient charisme, présence sur scène et professionnalisme, offrant une représentation visuelle impeccable pour chaque marque.",
+    "title2": "Hôtesses et Modèles",
+    "description2": "Nos hôtesses et modèles sont formés pour offrir une hospitalité exceptionnelle, alliant courtoisie, élégance et professionnalisme. Que ce soit pour des salons, des conférences, des événements privés ou d'entreprise, notre personnel d'accueil reflète l'excellence que nous représentons.",
+    "title3": "Services de promotion et de Street Marketing",
+    "description3": "Pour les campagnes promotionnelles qui nécessitent une approche directe et percutante, nous mettons à votre disposition des équipes dynamiques et expérimentées, capables de représenter votre marque lors d'actions sur le terrain avec un engagement qui laisse une impression durable.",
+    "title4": "Coordination d'événements",
+    "description4": "Grâce à une expertise solide en gestion d'événements, nous prenons en charge la planification et l'organisation de vos événements, garantissant une exécution sans faille. Notre équipe propose un service clé en main, de la conception à la mise en œuvre, pour un événement mémorable.",
+    "button": "Commander un service maintenant"
+  },
+  "ourmodels": {
+    "title1": "Nos",
+    "title2": "Mannequins",
+    "title3": "Hotesses",
+    "subtitle": "Rencontrez nos professionels prets a rendre vos evenement inoubliable",
+    "button": "Voir la gallerie complete"
+  },
+  "partners": {
+    "title1": "Nos",
+    "title2": "Partenaires",
+    "description": "Approuvé par les plus grandes marques et organisations du monde entier"
+  },
   "modelRegistration": {
-    "title": "Formulaire d'inscription Mannequins & Hôtesses",
+    "title": "Formulaire d'inscription",
     "subtitle": "Rejoignez notre réseau exclusif de mannequins professionnels",
     "backToHome": "Retour à l'accueil",
     "steps": {
