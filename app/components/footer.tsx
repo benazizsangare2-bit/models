@@ -82,7 +82,7 @@ export default function Footer() {
             <div className="space-y-2 space-x- text-gray-300">
               <p>📍 KN 4 Av 22, KIGALI - RWANDA</p>
               <p>📧 contact@generalconsultinggroups.com</p>
-              <p>📞 +250 736 536 458</p>
+              <p>📞 +250 798 812 499</p>
             </div>
           </div>
         </div>

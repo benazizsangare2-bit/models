@@ -316,7 +316,7 @@ export default function Contact() {
                         href="tel:+15551234567"
                         className="hover:text-rose-600 transition-colors"
                       >
-                        +250 736 536 458
+                        +250 798 812 499
                       </a>
                     </p>
                     <p className="text-gray-600">
@@ -452,35 +452,29 @@ export default function Contact() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              {t("FAQ1")}<span className="text-rose-400">{t("FAQ2")}</span>
+              {t("FAQ1")}
+              <span className="text-rose-400">{t("FAQ2")}</span>
             </h2>
-            <p className="text-xl text-gray-600 font-delius">
-            {t("FAQSub")}
-            </p>
+            <p className="text-xl text-gray-600 font-delius">{t("FAQSub")}</p>
           </div>
 
           <div className="space-y-6 font-delius">
             {[
               {
-                question:
-                t("Q1"),
-                answer:
-                t("Ans1"),
+                question: t("Q1"),
+                answer: t("Ans1"),
               },
               {
                 question: t("Q2"),
-                answer:
-                t("Ans2"),
+                answer: t("Ans2"),
               },
               {
                 question: t("Q3"),
-                answer:
-                t("Ans3"),
+                answer: t("Ans3"),
               },
               {
                 question: t("Q4"),
-                answer:
-                t("Ans4"),
+                answer: t("Ans4"),
               },
             ].map((faq, index) => (
               <div key={index} className="bg-white rounded-2xl p-6 shadow-lg">
