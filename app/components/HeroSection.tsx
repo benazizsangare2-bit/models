@@ -125,32 +125,6 @@ export default function HeroSection({ locale }: { locale: string }) {
               {t("signup")}
             </Link>
           </motion.div>
-
-          <motion.div
-            variants={fadeInUp}
-            className="mt-8 pt-6 border-t border-gray-200"
-          >
-            <p className="text-lg text-gray-700 mb-4">{t("getStarted")}</p>
-            <Link
-              href={`/${locale}/model-registration`}
-              className="inline-flex items-center border border-pink-500 text-pink px-8 py-4 rounded-lg font-medium text-xl hover:bg-gradient-to-r hover:from-rose-500 hover:to-pink-500 hover:text-white transition-all duration-600 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
-            >
-              <span>{t("getStartedButton")}</span>
-              <svg
-                className="ml-2 w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M13 7l5 5m0 0l-5 5m5-5H6"
-                />
-              </svg>
-            </Link>
-          </motion.div>
         </motion.div>
       </div>
 

@@ -14,12 +14,20 @@
       "title2": "Hostesses",
       "subtitle1": "We recruit elegant and professional models for fashion shows, photoshoots, and launches, guaranteeing high-quality services.",
       "subtitle2": "Our hostesses embody style, hospitality, and flexibility for your corporate events, offering excellent service that reflects your brand.",
-      "getStarted": "Ready to start your modeling career?",
-      "getStartedButton": "🌟 Get Started as a Model",
       "login": "Login",
       "signup": "Sign Up"
     }
   },
+
+  "Role": {
+    "model": "I am a Model",
+    "modelDesc": "A model is a refined personne that is used as emblematic figure in events",
+    "hostess": "I am an Hostess",
+    "hostessDesc": "An hostess is a refined personne that is used as emblematic figure in events",
+    "title": "Welcome, it's a great pleasure to have you in our team",
+    "subtitle": "Choose what you want to register as"
+  },
+
   "gallery": {
     "title1": "Our ",
     "title2": "Gallery",
@@ -60,6 +68,8 @@
     "title1": " Models ",
     "title2": " Hostesses",
     "subtitle": "Register your account",
+    "verifyTitle": "Verify Your Email",
+    "completeTitle": "Complete Your Registration",
     "form": {
       "email": "Email Address *",
       "emailPlaceholder": "Enter your email address",
@@ -67,7 +77,25 @@
       "creatingAccount": "Creating Account...",
       "alreadyHaveAccount": "Already have an account?",
       "signInHere": "Sign in here",
-      "orSignUpWith": "Or sign up with"
+      "orSignUpWith": "Or sign up with",
+      "otpPlaceholder": "Enter verification code",
+      "verifying": "Verifying...",
+      "verify": "Verify Email",
+      "fullname": "Full Name",
+      "username": "Username",
+      "phone": "Phone Number",
+      "password": "Password",
+      "submitting": "Submitting...",
+      "submit": "Complete Registration"
+    },
+    "messages": {
+      "emailSent": "We've sent a verification code to {email}",
+      "emailVerified": "Email verified successfully!",
+      "completeRegistration": "Please complete your registration for {email}",
+      "registrationCompleted": "Registration completed! You can log in now.",
+      "invalidOtp": "Invalid verification code",
+      "networkError": "Network error. Please try again.",
+      "registrationFailed": "Failed to complete registration"
     }
   },
   "login": {
@@ -182,6 +210,20 @@
     "title2": "Partners",
     "description": "Trusted by leading brands and organizations worldwide"
   },
+  "Account": {
+    "loading": "Loading your account...",
+    "Welcome": "Welcome back",
+    "email": "Email: ",
+    "id": "User ID: ",
+    "Logout": "Logout",
+    "username": "Username",
+    "fullname": "Full Name",
+    "editAccount": "edit your account",
+    "editApplications": "edit your application",
+    "viewApplications": "view applications",
+    "getStarted": "Are you a Model or an Hostess?",
+    "getStartedButton": "🌟 Get the registration process Started"
+  },
   "modelRegistration": {
     "title": "Registration form",
     "subtitle": "Join our exclusive network of professional models",
@@ -199,9 +241,9 @@
         "title": "Document Verification",
         "description": "Identity verification"
       },
-      "livenessVerification": {
-        "title": "Liveness Verification",
-        "description": "Face verification"
+      "identityVerification": {
+        "title": "Identity Confirmation",
+        "description": "Upload a selfie with your ID document"
       }
     },
     "form": {
@@ -271,7 +313,8 @@
         "startCameraButton": "Start Camera",
         "verifying": "Verifying...",
         "stopCameraButton": "Stop Camera",
-        "privacyNote": "Privacy Note: Your webcam data is processed securely and locally. No video is stored, only verification results."
+        "privacyNote": "Privacy Note: Your webcam data is processed securely and locally. No video is stored, only verification results.",
+        "capture": "Capture"
       },
       "navigation": {
         "previous": "Previous",
@@ -303,6 +346,121 @@
         "nationalId": "National ID Card",
         "passport": "Passport",
         "driversLicense": "Driver's License"
+      }
+    }
+  },
+  "hostessRegistration": {
+    "title": "Registration form",
+    "subtitle": "Join our exclusive network of professional hostesses",
+    "backToHome": "Back to Home",
+    "steps": {
+      "personalInfo": {
+        "title": "Personal Info",
+        "description": "Basic information"
+      },
+      "workExperience": {
+        "title": "Work Experience",
+        "description": "Professional details"
+      },
+      "documentVerification": {
+        "title": "Document Verification",
+        "description": "Identity verification"
+      },
+      "livenessVerification": {
+        "title": "Liveness Verification",
+        "description": "Face verification"
+      }
+    },
+    "form": {
+      "personalInfo": {
+        "title": "Personal Information",
+        "firstName": "First Name *",
+        "lastName": "Last Name *",
+        "username": "Username *",
+        "email": "Email *",
+        "whatsapp": "WhatsApp Number *",
+        "dateOfBirth": "Date of Birth *",
+        "gender": "Gender *",
+        "genderOptions": {
+          "select": "Select gender",
+          "female": "Female",
+          "male": "Male",
+          "other": "Other"
+        },
+        "nationality": "Nationality *",
+        "street": "Street Address *",
+        "city": "City *",
+        "residenceCountry": "Residence Country *",
+        "selectCountry": "Select country",
+        "emergencyContact": "Emergency Contact",
+        "emergencyContactName": "Emergency Contact Name *",
+        "emergencyContactRelationship": "Relationship *",
+        "emergencyContactPhone": "Phone Number *"
+      },
+      "workExperience": {
+        "title": "Work Experience & Skills",
+        "workExperience": "Work Experience *",
+        "workExperiencePlaceholder": "Describe your professional experience, previous jobs, and achievements...",
+        "languages": "Languages *",
+        "skills": "Skills *",
+        "availability": "Availability *",
+        "selectAvailability": "Select availability",
+        "fullTime": "Full-time",
+        "partTime": "Part-time",
+        "weekendsOnly": "Weekends only",
+        "eveningsOnly": "Evenings only",
+        "flexible": "Flexible",
+        "preferredEvents": "Preferred Event Types *",
+        "previousHostessWork": "Previous Hostess Work",
+        "previousHostessWorkPlaceholder": "Describe any previous hostess or hospitality experience...",
+        "references": "Professional References",
+        "referencesPlaceholder": "Provide contact information for professional references...",
+        "height": "Height (cm) *",
+        "weight": "Weight (kg) *",
+        "hairColor": "Hair Color *",
+        "selectHairColor": "Select hair color",
+        "eyeColor": "Eye Color *",
+        "selectEyeColor": "Select eye color",
+        "profilePhoto": "Profile Photo *",
+        "additionalPhotos": "Additional Photos (up to 5)",
+        "additionalPhotosDescription": "Add up to 5 photos to showcase your professional appearance",
+        "socialMedia": "Social Media Links",
+        "instagram": "Instagram",
+        "facebook": "Facebook",
+        "twitter": "Twitter",
+        "linkedin": "LinkedIn"
+      },
+      "documentVerification": {
+        "title": "Document Verification",
+        "uploadInfo": "Upload a government-issued ID to verify your identity.",
+        "acceptedDocuments": "We accept passports, driver's licenses, and national ID cards.",
+        "important": "Important:",
+        "importantPoints": [
+          "Your ID will be scanned for personal data extraction.",
+          "Please provide the original ID; copies or screenshots are not accepted.",
+          "Ensure all information is visible; damaged or expired IDs are not accepted."
+        ],
+        "documentIssuerCountry": "Document Issuer Country *",
+        "documentType": "Document Type *",
+        "selectDocumentType": "Select document type",
+        "frontOfDocument": "Front of Document *",
+        "backOfDocument": "Back of Document *"
+      },
+      "livenessVerification": {
+        "title": "Liveness Verification",
+        "description": "This step helps us confirm that you're a real person. Follow the simple instructions to complete the verification.",
+        "cameraRequired": "Camera and connection are required for liveness verification.",
+        "startCamera": "Click the button below to start camera verification",
+        "startCameraButton": "Start Camera",
+        "verifying": "Verifying...",
+        "stopCameraButton": "Stop Camera",
+        "privacyNote": "Privacy Note: Your webcam data is processed securely and locally. No video is stored, only verification results."
+      },
+      "navigation": {
+        "previous": "Previous",
+        "next": "Next",
+        "submitApplication": "Submit Application",
+        "submitting": "Submitting..."
       }
     }
   },

@@ -14,12 +14,19 @@
       "title2": " Hôtesses",
       "subtitle1": "Nous recrutons des mannequins élégants et professionnels pour les défilés de mode, les séances photo et les lancements, garantissant des services de haute qualité.",
       "subtitle2": "Nos hôtesses incarnent le style, l'hospitalité et la flexibilité pour vos événements d'entreprise, offrant un excellent service qui reflète votre marque.",
-      "getStarted": "Prêt(e) à commencer votre carrière de mannequin ?",
-      "getStartedButton": "🌟 Commencer comme Mannequin",
-      "login": "Connexion",
       "signup": "S'inscrire"
     }
   },
+
+  "Role": {
+    "model": "Je suis un Mannequin",
+    "modelDesc": "Un manniquin est une figure emblematique qui est solicitee lors des evenement de grand prestige",
+    "hostess": "Je suis une hotesse",
+    "hostessDesc": "Une hotesse est une figure emblematique qui est solicitee lors des evenement de grand prestige",
+    "title": "Bienvenue, c'est un reel plaisir de vous compter parmis notre equipe",
+    "subtitle": "Choisissez qui vous etes"
+  },
+
   "gallery": {
     "title1": "Notre",
     "title2": "Galerie",
@@ -60,6 +67,8 @@
     "title1": " Mannequins",
     "title2": " Hôtesses",
     "subtitle": "Creez votre compte",
+    "verifyTitle": "Vérifiez votre e-mail",
+    "completeTitle": "Complétez votre inscription",
     "form": {
       "email": "Adresse e-mail *",
       "emailPlaceholder": "Entrez votre adresse e-mail",
@@ -67,7 +76,25 @@
       "creatingAccount": "Création du compte...",
       "alreadyHaveAccount": "Vous avez déjà un compte ?",
       "signInHere": "Connectez-vous ici",
-      "orSignUpWith": "Ou inscrivez-vous avec"
+      "orSignUpWith": "Ou inscrivez-vous avec",
+      "otpPlaceholder": "Entrez le code de vérification",
+      "verifying": "Vérification en cours...",
+      "verify": "Vérifier l'e-mail",
+      "fullname": "Nom complet",
+      "username": "Nom d'utilisateur",
+      "phone": "Numéro de téléphone",
+      "password": "Mot de passe",
+      "submitting": "Soumission en cours...",
+      "submit": "Compléter l'inscription"
+    },
+    "messages": {
+      "emailSent": "Nous avons envoyé un code de vérification à {email}",
+      "emailVerified": "E-mail vérifié avec succès !",
+      "completeRegistration": "Veuillez compléter votre inscription pour {email}",
+      "registrationCompleted": "Inscription terminée ! Vous pouvez maintenant vous connecter.",
+      "invalidOtp": "Code de vérification invalide",
+      "networkError": "Erreur réseau. Veuillez réessayer.",
+      "registrationFailed": "Échec de l'inscription"
     }
   },
   "login": {
@@ -175,12 +202,29 @@
     "title2": "Mannequins",
     "title3": "Hotesses",
     "subtitle": "Rencontrez nos professionels prets a rendre vos evenement inoubliable",
-    "button": "Voir la gallerie complete"
+    "button": "Voir la gallerie complete",
+    "getStarted": "Etes vous un Mannequin ou une Hôtesses ?",
+    "getStartedButton": "🌟 Commencer la procedure d'enregistrement",
+    "login": "Connexion"
   },
   "partners": {
     "title1": "Nos",
     "title2": "Partenaires",
     "description": "Approuvé par les plus grandes marques et organisations du monde entier"
+  },
+  "Account": {
+    "loading": "Chargement de votre compte...",
+    "Welcome": "Bon retour!",
+    "email": "Email: ",
+    "id": "User ID: ",
+    "Logout": "Deconnecter",
+    "username": "Nom d'utilisateur *",
+    "fullname": "Nom complet",
+    "editAccount": "Modifier mes informations",
+    "editApplications": "modifier mon application",
+    "viewApplications": "Voir mes applications",
+    "getStarted": "Etes vous un Mannequin ou une Hôtesses ?",
+    "getStartedButton": "🌟 Commencer la procedure d'enregistrement"
   },
   "modelRegistration": {
     "title": "Formulaire d'inscription",
@@ -303,6 +347,121 @@
         "nationalId": "Carte d'identité nationale",
         "passport": "Passeport",
         "driversLicense": "Permis de conduire"
+      }
+    }
+  },
+  "hostessRegistration": {
+    "title": "Formulaire d'inscription",
+    "subtitle": "Rejoignez notre réseau exclusif d'hôtesses professionnelles",
+    "backToHome": "Retour à l'accueil",
+    "steps": {
+      "personalInfo": {
+        "title": "Informations personnelles",
+        "description": "Informations de base"
+      },
+      "workExperience": {
+        "title": "Expérience professionnelle",
+        "description": "Détails professionnels"
+      },
+      "documentVerification": {
+        "title": "Vérification des documents",
+        "description": "Vérification d'identité"
+      },
+      "livenessVerification": {
+        "title": "Vérification de présence",
+        "description": "Vérification faciale"
+      }
+    },
+    "form": {
+      "personalInfo": {
+        "title": "Informations personnelles",
+        "firstName": "Prénom *",
+        "lastName": "Nom de famille *",
+        "username": "Nom d'utilisateur *",
+        "email": "Email *",
+        "whatsapp": "Numéro WhatsApp *",
+        "dateOfBirth": "Date de naissance *",
+        "gender": "Sexe *",
+        "genderOptions": {
+          "select": "Sélectionner le sexe",
+          "female": "Féminin",
+          "male": "Masculin",
+          "other": "Autre"
+        },
+        "nationality": "Nationalité *",
+        "street": "Adresse *",
+        "city": "Ville *",
+        "residenceCountry": "Pays de résidence *",
+        "selectCountry": "Sélectionner le pays",
+        "emergencyContact": "Contact d'urgence",
+        "emergencyContactName": "Nom du contact d'urgence *",
+        "emergencyContactRelationship": "Relation *",
+        "emergencyContactPhone": "Numéro de téléphone *"
+      },
+      "workExperience": {
+        "title": "Expérience professionnelle et compétences",
+        "workExperience": "Expérience professionnelle *",
+        "workExperiencePlaceholder": "Décrivez votre expérience professionnelle, emplois précédents et réalisations...",
+        "languages": "Langues *",
+        "skills": "Compétences *",
+        "availability": "Disponibilité *",
+        "selectAvailability": "Sélectionner la disponibilité",
+        "fullTime": "Temps plein",
+        "partTime": "Temps partiel",
+        "weekendsOnly": "Weekends uniquement",
+        "eveningsOnly": "Soirées uniquement",
+        "flexible": "Flexible",
+        "preferredEvents": "Types d'événements préférés *",
+        "previousHostessWork": "Expérience d'hôtesse précédente",
+        "previousHostessWorkPlaceholder": "Décrivez toute expérience d'hôtesse ou d'hospitalité...",
+        "references": "Références professionnelles",
+        "referencesPlaceholder": "Fournissez les informations de contact des références professionnelles...",
+        "height": "Taille (cm) *",
+        "weight": "Poids (kg) *",
+        "hairColor": "Couleur des cheveux *",
+        "selectHairColor": "Sélectionner la couleur des cheveux",
+        "eyeColor": "Couleur des yeux *",
+        "selectEyeColor": "Sélectionner la couleur des yeux",
+        "profilePhoto": "Photo de profil *",
+        "additionalPhotos": "Photos supplémentaires (jusqu'à 5)",
+        "additionalPhotosDescription": "Ajoutez jusqu'à 5 photos pour montrer votre apparence professionnelle",
+        "socialMedia": "Liens des réseaux sociaux",
+        "instagram": "Instagram",
+        "facebook": "Facebook",
+        "twitter": "Twitter",
+        "linkedin": "LinkedIn"
+      },
+      "documentVerification": {
+        "title": "Vérification des documents",
+        "uploadInfo": "Téléchargez une pièce d'identité officielle pour vérifier votre identité.",
+        "acceptedDocuments": "Nous acceptons les passeports, permis de conduire et cartes d'identité nationales.",
+        "important": "Important :",
+        "importantPoints": [
+          "Votre pièce d'identité sera scannée pour l'extraction des données personnelles.",
+          "Veuillez fournir la pièce d'identité originale ; les copies ou captures d'écran ne sont pas acceptées.",
+          "Assurez-vous que toutes les informations sont visibles ; les pièces d'identité endommagées ou expirées ne sont pas acceptées."
+        ],
+        "documentIssuerCountry": "Pays émetteur du document *",
+        "documentType": "Type de document *",
+        "selectDocumentType": "Sélectionner le type de document",
+        "frontOfDocument": "Recto du document *",
+        "backOfDocument": "Verso du document *"
+      },
+      "livenessVerification": {
+        "title": "Vérification de présence",
+        "description": "Cette étape nous aide à confirmer que vous êtes une vraie personne. Suivez les instructions simples pour terminer la vérification.",
+        "cameraRequired": "Caméra et connexion requises pour la vérification de présence.",
+        "startCamera": "Cliquez sur le bouton ci-dessous pour démarrer la vérification par caméra",
+        "startCameraButton": "Démarrer la caméra",
+        "verifying": "Vérification en cours...",
+        "stopCameraButton": "Arrêter la caméra",
+        "privacyNote": "Note de confidentialité : Vos données de webcam sont traitées de manière sécurisée et locale. Aucune vidéo n'est stockée, seulement les résultats de vérification."
+      },
+      "navigation": {
+        "previous": "Précédent",
+        "next": "Suivant",
+        "submitApplication": "Soumettre la candidature",
+        "submitting": "Soumission en cours..."
       }
     }
   },

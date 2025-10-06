@@ -3,6 +3,7 @@ import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { fadeInUp } from "./motion";
+import Link from "next/link";
 
 export default function Ourmodels({ locale }: { locale: string }) {
   const t = useTranslations("ourmodels");

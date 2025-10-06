@@ -37,10 +37,36 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitStatus("idle");
 
-    // Simulate form submission
-    setTimeout(() => {
+    // Basic validation
+    if (!formData.name || !formData.email || !formData.message) {
+      setSubmitStatus("error");
       setIsSubmitting(false);
+      setTimeout(() => setSubmitStatus("idle"), 5000);
+      return;
+    }
+
+    try {
+      const response = await fetch("http://192.168.1.69:6060/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(
+          errorData.message ||
+            `Failed to submit contact form: ${response.status}`
+        );
+      }
+
+      const result = await response.json();
+      console.log("Contact form submitted successfully:", result);
+
       setSubmitStatus("success");
       setFormData({
         name: "",
@@ -54,7 +80,15 @@ export default function Contact() {
 
       // Reset success message after 5 seconds
       setTimeout(() => setSubmitStatus("idle"), 5000);
-    }, 2000);
+    } catch (error) {
+      console.error("Error submitting contact form:", error);
+      setSubmitStatus("error");
+
+      // Reset error message after 5 seconds
+      setTimeout(() => setSubmitStatus("idle"), 5000);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const eventTypes = [
@@ -97,6 +131,15 @@ export default function Contact() {
                   <p className="text-green-800">
                     Thank you for your message! We'll get back to you within 24
                     hours.
+                  </p>
+                </div>
+              )}
+
+              {submitStatus === "error" && (
+                <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                  <p className="text-red-800">
+                    Sorry, there was an error submitting your message. Please
+                    try again or contact us directly.
                   </p>
                 </div>
               )}
@@ -245,9 +288,14 @@ export default function Contact() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-gradient-to-r from-rose-500 to-pink-600 text-white py-4 px-8 rounded-lg font-semibold text-lg hover:from-rose-600 hover:to-pink-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full bg-gradient-to-r from-rose-500 to-pink-600 text-white py-4 px-8 rounded-lg font-semibold text-lg hover:from-rose-600 hover:to-pink-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
                 >
-                  {isSubmitting ? t("form.Sending") : t("form.SendMessage")}
+                  {isSubmitting && (
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  )}
+                  <span>
+                    {isSubmitting ? t("form.Sending") : t("form.SendMessage")}
+                  </span>
                 </button>
               </form>
             </div>

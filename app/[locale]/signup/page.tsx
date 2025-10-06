@@ -16,24 +16,35 @@ export default function SignUp({ locale = "en" }: { locale: string }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData({ email: e.target.value });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate registration process
-    setTimeout(() => {
-      setIsSubmitting(false);
-      // Here you would typically handle the actual registration logic
-    }, 2000);
-  };
+    try {
+      const res = await fetch("http://192.168.1.69:6060/register/start", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
+      if (!res.ok) {
+        const err = await res.json();
+        alert(err.error || "Failed to send OTP");
+        return;
+      }
+
+      alert("OTP sent to your email!");
+      window.location.href = `/${locale}/verifyemail?email=${formData.email}`;
+    } catch (err) {
+      console.error("Error:", err);
+      alert("Network error");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-700 to-gray-900">
       <div className="flex items-center justify-center min-h-screen py-12 px-4 sm:px-6 lg:px-8">
