@@ -9,12 +9,12 @@ import HeroSection from "../components/HeroSection";
 import BackgroundPatterns from "../components/BackgroundPatterns";
 
 // ✅ Let Next.js infer params, but unwrap the Promise
-export default function HomePage({
+export default async function HomePage({
   params,
 }: {
-  params: Awaited<{ locale: string }>;
+  params: Promise<{ locale: string }>;
 }) {
-  const { locale } = params;
+  const { locale } = await params;
 
   return (
     <div className="relative min-h-screen bg-gray-50">

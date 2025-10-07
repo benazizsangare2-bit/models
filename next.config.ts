@@ -4,45 +4,50 @@ const withNextIntl = createNextIntlPlugin();
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   images: {
-    domains: [
-      "192.168.137.223", // Your local backend IP (keep for development)
-      "localhost", // Local development
-      "modelshostesses.com", // Your production domain
-    ],
     remotePatterns: [
       {
         protocol: "http",
         hostname: "192.168.137.223",
-        port: "6060", // Your backend port
+        port: "6060",
         pathname: "/**",
       },
       {
         protocol: "https",
         hostname: "modelshostesses.com",
-        port: "6060", // Your backend port
+        port: "6060",
         pathname: "/**",
       },
-      // Add this for your production backend (assuming it's on the same domain but different port)
       {
         protocol: "http",
         hostname: "localhost",
-        port: "8081", // Your new custom backend port
+        port: "8081",
         pathname: "/**",
       },
       {
         protocol: "https",
         hostname: "modelshostesses.com",
+        pathname: "/**",
+      },
+      // Add this for local development without port
+      {
+        protocol: "http",
+        hostname: "localhost",
+        pathname: "/**",
+      },
+      // Add this for your production backend (port 6061 based on your Nginx config)
+      {
+        protocol: "https",
+        hostname: "modelshostesses.com",
+        port: "6061",
         pathname: "/**",
       },
     ],
   },
-  // Optional: Add env variables for your backend URL
   env: {
     BACKEND_URL:
       process.env.NODE_ENV === "production"
-        ? "https://modelshostesses.com:8081"
+        ? "https://modelshostesses.com/api" // Use your Nginx proxy
         : "http://192.168.137.223:6060",
   },
 };
