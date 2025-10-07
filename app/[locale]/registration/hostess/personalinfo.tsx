@@ -91,7 +91,7 @@ export default function PersonalInfo({
     const token = localStorage.getItem("token");
     if (!token) return;
 
-    fetch("http://192.168.137.223:6060/api/account", {
+    fetch("https://modelshostesses.com/api/api/account", {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())

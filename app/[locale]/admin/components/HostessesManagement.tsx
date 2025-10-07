@@ -73,7 +73,7 @@ export default function HostessesManagement() {
       }
 
       const response = await fetch(
-        `http://192.168.1.69:6060/api/admin/hostesses?${params.toString()}`,
+        `https://modelshostesses.com/api/api/admin/hostesses?${params.toString()}`,
         {
           method: "GET",
           headers: {
@@ -120,7 +120,7 @@ export default function HostessesManagement() {
       }
 
       const response = await fetch(
-        `http://192.168.1.69:6060/api/admin/hostesses/${hostessId}/${action}`,
+        `https://modelshostesses.com/api/api/admin/hostesses/${hostessId}/${action}`,
         {
           method: "POST",
           headers: {
@@ -172,7 +172,7 @@ export default function HostessesManagement() {
       }
 
       const response = await fetch(
-        `http://192.168.1.69:6060/api/hostesses/${hostessId}`,
+        `https://modelshostesses.com/api/api/hostesses/${hostessId}`,
         {
           method: "DELETE",
           headers: {
@@ -211,7 +211,7 @@ export default function HostessesManagement() {
       }
 
       const response = await fetch(
-        `http://192.168.1.69:6060/api/hostesses/${hostessId}`,
+        `https://modelshostesses.com/api/api/hostesses/${hostessId}`,
         {
           method: "PUT",
           headers: {

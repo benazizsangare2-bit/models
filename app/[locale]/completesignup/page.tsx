@@ -35,11 +35,14 @@ export default function CompleteRegistration({
     setError("");
 
     try {
-      const res = await fetch("http://192.168.1.69:6060/register/complete", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, email }),
-      });
+      const res = await fetch(
+        "https://modelshostesses.com/api/register/complete",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...formData, email }),
+        }
+      );
 
       if (!res.ok) {
         const err = await res.json();

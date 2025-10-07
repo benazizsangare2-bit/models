@@ -76,7 +76,7 @@ export default function HostessRegistrationLayout() {
 
     const token = localStorage.getItem("token");
     if (!token) return;
-    fetch("http://192.168.137.223:6060/api/hostesses/progress", {
+    fetch("https://modelshostesses.com/api/api/hostesses/progress", {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(async (res) => {
@@ -107,7 +107,7 @@ export default function HostessRegistrationLayout() {
       if (currentStep === 1) {
         // Create hostess
         const res = await fetch(
-          "http://192.168.137.223:6060/api/hostesses/create",
+          "https://modelshostesses.com/api/api/hostesses/create",
           {
             method: "POST",
             headers: {
@@ -172,7 +172,7 @@ export default function HostessRegistrationLayout() {
         fd.append("social_linkedin", formData.socialMedia.linkedin);
 
         const res = await fetch(
-          "http://192.168.137.223:6060/api/hostesses/experience",
+          "https://modelshostesses.com/api/api/hostesses/experience",
           {
             method: "POST",
             headers: { Authorization: `Bearer ${token}` },
@@ -199,7 +199,7 @@ export default function HostessRegistrationLayout() {
           fd.append("documentBack", formData.documentBack);
 
         const res = await fetch(
-          "http://192.168.137.223:6060/api/hostesses/documents",
+          "https://modelshostesses.com/api/api/hostesses/documents",
           {
             method: "POST",
             headers: { Authorization: `Bearer ${token}` },
@@ -223,7 +223,7 @@ export default function HostessRegistrationLayout() {
         fd.append("selfie_with_id", formData.selfie);
 
         const res = await fetch(
-          "http://192.168.137.223:6060/api/hostesses/identity-check",
+          "https://modelshostesses.com/api/api/hostesses/identity-check",
           {
             method: "POST",
             headers: { Authorization: `Bearer ${token}` },

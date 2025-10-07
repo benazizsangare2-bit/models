@@ -32,7 +32,7 @@ export default function Login() {
     setIsSubmitting(true);
 
     try {
-      const res = await fetch("http://192.168.137.223:6060/login", {
+      const res = await fetch("https://modelshostesses.com/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -20,11 +20,14 @@ export default function VerifyEmail({ locale = "en" }: { locale: string }) {
     setError("");
 
     try {
-      const res = await fetch("http://192.168.1.69:6060/register/verify", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, code: otp }),
-      });
+      const res = await fetch(
+        "https://modelshostesses.com/api/register/verify",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, code: otp }),
+        }
+      );
 
       if (!res.ok) {
         const err = await res.json();

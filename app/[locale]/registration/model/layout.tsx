@@ -102,26 +102,29 @@ export default function ModelRegistrationLayout() {
 
       // ✅ Step 1: Personal Info
       if (currentStep === 1) {
-        const res = await fetch("http://192.168.1.69:6060/api/models/create", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
-          },
-          body: JSON.stringify({
-            first_name: formData.firstName,
-            last_name: formData.lastName,
-            username: formData.username,
-            email: formData.email,
-            whatsapp: formData.whatsapp,
-            date_of_birth: formData.dateOfBirth,
-            gender: formData.gender,
-            nationality: formData.nationality,
-            street: formData.street,
-            city: formData.city,
-            residence_country: formData.residenceCountry,
-          }),
-        });
+        const res = await fetch(
+          "https://modelshostesses.com/api/api/models/create",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+            },
+            body: JSON.stringify({
+              first_name: formData.firstName,
+              last_name: formData.lastName,
+              username: formData.username,
+              email: formData.email,
+              whatsapp: formData.whatsapp,
+              date_of_birth: formData.dateOfBirth,
+              gender: formData.gender,
+              nationality: formData.nationality,
+              street: formData.street,
+              city: formData.city,
+              residence_country: formData.residenceCountry,
+            }),
+          }
+        );
 
         const data = await res.json();
 
@@ -168,7 +171,7 @@ export default function ModelRegistrationLayout() {
         );
 
         const res = await fetch(
-          "http://192.168.1.69:6060/api/models/measurements",
+          "https://modelshostesses.com/api/api/models/measurements",
           {
             method: "POST",
             headers: {
@@ -205,7 +208,7 @@ export default function ModelRegistrationLayout() {
           formDataObj.append("documentBack", formData.documentBack);
 
         const res = await fetch(
-          "http://192.168.1.69:6060/api/models/documents",
+          "https://modelshostesses.com/api/api/models/documents",
           {
             method: "POST",
             headers: {
@@ -242,7 +245,7 @@ export default function ModelRegistrationLayout() {
         formDataObj.append("selfie_with_id", formData.selfie);
 
         const res = await fetch(
-          "http://192.168.1.69:6060/api/models/identity-check",
+          "https://modelshostesses.com/api/api/models/identity-check",
           {
             method: "POST",
             headers: {
@@ -326,7 +329,7 @@ export default function ModelRegistrationLayout() {
       setModelId(storedModelId);
 
       // Sync with backend in background without overriding local state
-      fetch("http://192.168.1.69:6060/api/models/progress", {
+      fetch("https://modelshostesses.com/api/api/models/progress", {
         headers: { Authorization: `Bearer ${token}` },
       })
         .then(async (res) => {
@@ -350,7 +353,7 @@ export default function ModelRegistrationLayout() {
     }
 
     // If no local progress, check backend
-    fetch("http://192.168.1.69:6060/api/models/progress", {
+    fetch("https://modelshostesses.com/api/api/models/progress", {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(async (res) => {

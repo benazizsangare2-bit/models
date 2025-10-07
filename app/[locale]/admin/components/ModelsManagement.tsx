@@ -73,7 +73,7 @@ export default function ModelsManagement() {
       }
 
       const response = await fetch(
-        `http://192.168.1.69:6060/api/admin/models?${params.toString()}`,
+        `https://modelshostesses.com/api/api/admin/models?${params.toString()}`,
         {
           method: "GET",
           headers: {
@@ -115,7 +115,7 @@ export default function ModelsManagement() {
       }
 
       const response = await fetch(
-        `http://192.168.1.69:6060/api/admin/models/${modelId}/${action}`,
+        `https://modelshostesses.com/api/api/admin/models/${modelId}/${action}`,
         {
           method: "POST",
           headers: {
@@ -162,7 +162,7 @@ export default function ModelsManagement() {
       }
 
       const response = await fetch(
-        `http://192.168.1.69:6060/api/models/${modelId}`,
+        `https://modelshostesses.com/api/api/models/${modelId}`,
         {
           method: "DELETE",
           headers: {
@@ -196,7 +196,7 @@ export default function ModelsManagement() {
       }
 
       const response = await fetch(
-        `http://192.168.1.69:6060/api/models/${modelId}`,
+        `https://modelshostesses.com/api/api/models/${modelId}`,
         {
           method: "PUT",
           headers: {

@@ -26,7 +26,7 @@ export default function AccountPage() {
       return;
     }
 
-    fetch("http://192.168.137.223:6060/api/account", {
+    fetch("https://modelshostesses.com/api/api/account", {
       headers: {
         Authorization: `Bearer ${token}`,
       },

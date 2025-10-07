@@ -67,7 +67,7 @@ export default function ModelModal({
   const getImageUrl = (photo: string) => {
     if (!photo) return "/Images/models/default.jpg";
     if (photo.startsWith("http")) return photo;
-    return `http://192.168.137.223:6060${
+    return `https://modelshostesses.com/api${
       photo.startsWith("/") ? "" : "/"
     }${photo}`;
   };

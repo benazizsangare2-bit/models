@@ -24,11 +24,14 @@ export default function SignUp({ locale = "en" }: { locale: string }) {
     setIsSubmitting(true);
 
     try {
-      const res = await fetch("http://192.168.1.69:6060/register/start", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      const res = await fetch(
+        "https://modelshostesses.com/api/register/start",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        }
+      );
 
       if (!res.ok) {
         const err = await res.json();

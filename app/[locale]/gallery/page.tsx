@@ -28,7 +28,7 @@ export default function Gallery({ locale }: { locale: string }) {
         setError(null);
 
         const token = localStorage.getItem("token");
-        const baseUrl = "http://192.168.137.223:6060";
+        const baseUrl = "https://modelshostesses.com/api";
 
         // Fetch both models and hostesses in parallel
         const [modelsResponse, hostessesResponse] = await Promise.allSettled([
@@ -94,7 +94,7 @@ export default function Gallery({ locale }: { locale: string }) {
               const imageUrl = model.photo
                 ? model.photo.startsWith("http")
                   ? model.photo
-                  : `http://192.168.137.223:6060${
+                  : `https://modelshostesses.com/api${
                       model.photo.startsWith("/") ? "" : "/"
                     }${model.photo}`
                 : "/Images/models/default.jpg";
@@ -191,7 +191,7 @@ export default function Gallery({ locale }: { locale: string }) {
               image: hostess.photo
                 ? hostess.photo.startsWith("http")
                   ? hostess.photo
-                  : `http://192.168.137.223:6060${
+                  : `https://modelshostesses.com/api${
                       hostess.photo.startsWith("/") ? "" : "/"
                     }${hostess.photo}`
                 : "/Images/models/default.jpg",
@@ -528,12 +528,6 @@ export default function Gallery({ locale }: { locale: string }) {
             >
               {t("gallery.cta.contactUs")}
             </Link>
-            {/* <Link
-              href={`/${locale}/services`}
-              className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-rose-600 transition-all duration-200"
-            >
-              {t("gallery.cta.viewServices")}
-            </Link> */}
           </div>
         </div>
       </section>
