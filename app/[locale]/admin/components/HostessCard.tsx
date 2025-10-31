@@ -16,29 +16,51 @@ interface Hostess {
   street: string;
   city: string;
   residence_country: string;
-  emergency_contact_name: string;
-  emergency_contact_relationship: string;
-  emergency_contact_phone: string;
-  height: string;
-  weight: string;
-  shoe_size: string;
-  hair_color: string;
-  eye_color: string;
-  photo: string;
-  additional_photos: string[];
-  social_instagram: string;
-  social_facebook: string;
-  social_twitter: string;
-  social_linkedin: string;
-  document_number: string;
-  document_issuer_country: string;
-  document_type: string;
-  document_front: string;
-  document_back: string;
-  selfie_with_id: string;
   status: "pending" | "approved" | "rejected";
+  registration_step: boolean;
+  deleted: boolean;
   created_at: string;
   updated_at: string;
+
+  emergency_contact: {
+    name: string;
+    relationship: string;
+    phone: string;
+  };
+
+  user_info: {
+    fullname: string;
+    email: string;
+    phone: string;
+  };
+  experience: {
+    work_experience: string;
+    languages: string;
+    skills: string;
+    availability: string;
+    preferred_events: string;
+    previous_hostess_work: string;
+    reference_contact: string;
+    height: string;
+    weight: string;
+    hair_color: string;
+    eye_color: string;
+    photo: string | string[]; // Change this to accept both string and array
+    social_instagram: string;
+    social_facebook: string;
+    social_twitter: string;
+    social_linkedin: string;
+  };
+  documents: {
+    document_issuer_country: string;
+    document_type: string;
+    document_front: string;
+    document_back: string;
+  };
+  identity_check: {
+    selfie_with_id: string;
+    verified: boolean;
+  };
 }
 
 interface HostessCardProps {
@@ -74,12 +96,35 @@ export default function HostessCard({
     }
   };
 
-  const getImageUrl = (photo: string) => {
+  const getImageUrl = (photo: string | string[]) => {
     if (!photo) return "/Images/models/default.jpg";
-    if (photo.startsWith("http")) return photo;
+
+    let photoPath = "";
+
+    // Case 1: array
+    if (Array.isArray(photo)) {
+      photoPath = photo[0];
+    }
+    // Case 2: serialized JSON string like '{"uploads/...jpg","uploads/...jpg"}'
+    else if (photo.startsWith("{")) {
+      try {
+        const parsed = JSON.parse(photo.replace(/'/g, '"')); // make sure JSON is valid
+        photoPath = Array.isArray(parsed) ? parsed[0] : parsed;
+      } catch {
+        // fallback: clean manually
+        photoPath = photo.split(",")[0].replace(/[{}"]/g, "").trim();
+      }
+    }
+    // Case 3: normal string
+    else {
+      photoPath = photo;
+    }
+
+    if (photoPath.startsWith("http")) return photoPath;
+    // return `https://modelshostesses.com/api${ photo.startsWith("/") ? "" : "/" }${photo}`;
     return `https://modelshostesses.com/api${
-      photo.startsWith("/") ? "" : "/"
-    }${photo}`;
+      photoPath.startsWith("/") ? "" : "/"
+    }${photoPath}`;
   };
 
   return (
@@ -90,7 +135,7 @@ export default function HostessCard({
           <div className="w-16 h-16 rounded-lg overflow-hidden bg-gray-200">
             {!imageError ? (
               <Image
-                src={getImageUrl(hostess.photo)}
+                src={getImageUrl(hostess.experience.photo)}
                 alt={`${hostess.first_name} ${hostess.last_name}`}
                 width={64}
                 height={64}
@@ -150,41 +195,41 @@ export default function HostessCard({
             </div>
             <div>
               <span className="font-medium">Height:</span>{" "}
-              {hostess.height || "N/A"}
+              {hostess.experience.height || "N/A"}
             </div>
             <div>
               <span className="font-medium">Weight:</span>{" "}
-              {hostess.weight || "N/A"}
+              {hostess.experience.weight || "N/A"}
             </div>
             <div>
               <span className="font-medium">Hair Color:</span>{" "}
-              {hostess.hair_color || "N/A"}
+              {hostess.experience.hair_color || "N/A"}
             </div>
             <div>
               <span className="font-medium">Eye Color:</span>{" "}
-              {hostess.eye_color || "N/A"}
+              {hostess.experience.eye_color || "N/A"}
             </div>
             <div>
               <span className="font-medium">Document Type:</span>{" "}
-              {hostess.document_type}
+              {hostess.documents.document_type}
             </div>
             <div>
               <span className="font-medium">Instagram:</span>{" "}
-              {hostess.social_instagram
-                ? "@" + hostess.social_instagram
+              {hostess.experience.social_instagram
+                ? "@" + hostess.experience.social_instagram
                 : "N/A"}
             </div>
             <div>
               <span className="font-medium">Facebook:</span>{" "}
-              {hostess.social_facebook || "N/A"}
+              {hostess.experience.social_facebook || "N/A"}
             </div>
             <div>
               <span className="font-medium">Twitter:</span>{" "}
-              {hostess.social_twitter || "N/A"}
+              {hostess.experience.social_twitter || "N/A"}
             </div>
             <div>
               <span className="font-medium">LinkedIn:</span>{" "}
-              {hostess.social_linkedin || "N/A"}
+              {hostess.experience.social_linkedin || "N/A"}
             </div>
           </div>
 
@@ -194,10 +239,10 @@ export default function HostessCard({
 
           {/* Document and Selfie Images */}
           <div className="mt-3 flex space-x-2">
-            {hostess.document_front && (
+            {hostess.documents.document_front && (
               <div className="w-16 h-12 rounded border overflow-hidden bg-gray-100">
                 <Image
-                  src={getImageUrl(hostess.document_front)}
+                  src={getImageUrl(hostess.documents.document_front)}
                   alt="Document Front"
                   width={64}
                   height={48}
@@ -205,10 +250,10 @@ export default function HostessCard({
                 />
               </div>
             )}
-            {hostess.document_back && (
+            {hostess.documents.document_back && (
               <div className="w-16 h-12 rounded border overflow-hidden bg-gray-100">
                 <Image
-                  src={getImageUrl(hostess.document_back)}
+                  src={getImageUrl(hostess.documents.document_back)}
                   alt="Document Back"
                   width={64}
                   height={48}
@@ -216,10 +261,10 @@ export default function HostessCard({
                 />
               </div>
             )}
-            {hostess.selfie_with_id && (
+            {hostess.identity_check.selfie_with_id && (
               <div className="w-16 h-12 rounded border overflow-hidden bg-gray-100">
                 <Image
-                  src={getImageUrl(hostess.selfie_with_id)}
+                  src={getImageUrl(hostess.identity_check.selfie_with_id)}
                   alt="Selfie with ID"
                   width={64}
                   height={48}
@@ -227,19 +272,21 @@ export default function HostessCard({
                 />
               </div>
             )}
-            {hostess.additional_photos &&
-              hostess.additional_photos.length > 0 && (
+
+            {/* Additional Photos */}
+            {hostess.experience.photo &&
+              hostess.experience.photo.length > 0 && (
                 <div className="relative w-16 h-12 rounded border overflow-hidden bg-gray-100">
                   <Image
-                    src={getImageUrl(hostess.additional_photos[0])}
+                    src={getImageUrl(hostess.experience.photo)}
                     alt="Additional Photo"
                     width={64}
                     height={48}
                     className="w-full h-full object-cover"
                   />
-                  {hostess.additional_photos.length > 1 && (
+                  {hostess.experience.photo.length > 1 && (
                     <div className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                      +{hostess.additional_photos.length - 1}
+                      +{hostess.experience.photo.length - 1}
                     </div>
                   )}
                 </div>

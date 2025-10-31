@@ -20,161 +20,156 @@ export default function Gallery({ locale }: { locale: string }) {
     { id: "hostesses", name: t("gallery.categories.hostesses") },
   ];
 
-  // Fetch approved models and hostesses from API
-  useEffect(() => {
-    const fetchApprovedProfiles = async () => {
-      try {
-        setLoading(true);
-        setError(null);
+  // Helper function to clean and construct image URLs
+  const getImageUrl = (photoPath: string | null | undefined): string => {
+    console.log("🔍 getImageUrl received:", photoPath);
 
-        const token = localStorage.getItem("token");
-        const baseUrl = "https://modelshostesses.com/api";
+    if (!photoPath) {
+      console.log("❌ No photo path provided, using default");
+      return "/Images/models/default.jpg";
+    }
 
-        // Fetch both models and hostesses in parallel
-        const [modelsResponse, hostessesResponse] = await Promise.allSettled([
-          fetch(`${baseUrl}/api/models/approved`, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              ...(token && { Authorization: `Bearer ${token}` }),
-            },
-          }),
-          fetch(`${baseUrl}/api/hostesses/approved`, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              ...(token && { Authorization: `Bearer ${token}` }),
-            },
-          }),
-        ]);
+    // If it's already a full URL, return as is
+    if (photoPath.startsWith("http")) {
+      return photoPath;
+    }
 
-        let allProfiles: any[] = [];
+    // Clean the path - remove any curly braces that might be left
+    let cleanPath = photoPath.replace(/[{}"]/g, "").trim();
 
-        // Process models response
-        console.log("Models response status:", modelsResponse.status);
-        if (modelsResponse.status === "fulfilled") {
-          console.log("Models response ok:", modelsResponse.value.ok);
-          console.log(
-            "Models response status code:",
-            modelsResponse.value.status
-          );
-        }
+    if (!cleanPath) {
+      console.log("❌ Clean path is empty, using default");
+      return "/Images/models/default.jpg";
+    }
 
-        if (modelsResponse.status === "fulfilled" && modelsResponse.value.ok) {
-          const modelsData = await modelsResponse.value.json();
-          console.log("Models API Response:", modelsData);
-          console.log("Models data is array:", Array.isArray(modelsData));
+    // Remove leading slash if present (to avoid double slashes)
+    cleanPath = cleanPath.startsWith("/") ? cleanPath.slice(1) : cleanPath;
 
-          // Handle different response formats
-          let modelsArray = [];
-          if (Array.isArray(modelsData)) {
-            modelsArray = modelsData;
-          } else if (modelsData && Array.isArray(modelsData.data)) {
-            modelsArray = modelsData.data;
-          } else if (modelsData && Array.isArray(modelsData.models)) {
-            modelsArray = modelsData.models;
-          } else if (
-            modelsData &&
-            modelsData.results &&
-            Array.isArray(modelsData.results)
-          ) {
-            modelsArray = modelsData.results;
-          } else {
-            console.error("Models data is not in expected format:", modelsData);
-            console.log(
-              "Available keys in models data:",
-              Object.keys(modelsData || {})
-            );
-          }
+    const finalUrl = `https://modelshostesses.com/api/${cleanPath}`;
+    console.log("✅ Final image URL:", finalUrl);
 
-          console.log("Models array length:", modelsArray.length);
+    return finalUrl;
+  };
+  // Simple fetch function
+  const fetchApprovedProfiles = async () => {
+    try {
+      setLoading(true);
+      setError(null);
 
-          if (modelsArray.length > 0) {
-            const mappedModels = modelsArray.map((model: any) => {
-              const imageUrl = model.photo
-                ? model.photo.startsWith("http")
-                  ? model.photo
-                  : `https://modelshostesses.com/api${
-                      model.photo.startsWith("/") ? "" : "/"
-                    }${model.photo}`
-                : "/Images/models/default.jpg";
+      const token = localStorage.getItem("token");
+      const baseUrl = "https://modelshostesses.com/api";
 
-              console.log(`Model ${model.id} photo:`, model.photo);
-              console.log(`Model ${model.id} imageUrl:`, imageUrl);
+      // Fetch both models and hostesses
+      const [modelsResponse, hostessesResponse] = await Promise.all([
+        fetch(`${baseUrl}/api/models/approved`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            ...(token && { Authorization: `Bearer ${token}` }),
+          },
+        }),
+        fetch(`${baseUrl}/api/hostesses/approved`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            ...(token && { Authorization: `Bearer ${token}` }),
+          },
+        }),
+      ]);
 
-              return {
-                id: model.id,
-                name: `${model.first_name} ${model.last_name}`,
-                codeName:
-                  model.username ||
-                  `${model.first_name?.toUpperCase()}-${model.id}`,
-                category: "models",
-                nationality: model.nationality || "N/A",
-                city: model.city || "N/A",
-                sex: model.gender || "N/A",
-                shoeSize: model.shoe_size || "N/A",
-                eyesColor: model.eye_color || "N/A",
-                hair: model.hair_color || "N/A",
-                height: model.height || "N/A",
-                image: imageUrl,
-              };
+      let allProfiles: any[] = [];
+
+      // Process models
+      if (modelsResponse.ok) {
+        const data = await modelsResponse.json();
+        console.log("Models API Response:", data);
+
+        const modelsArray = Array.isArray(data)
+          ? data
+          : data.models || data.data || [];
+        console.log("Models array:", modelsArray);
+
+        if (modelsArray.length > 0) {
+          const mappedModels = modelsArray.map((model: any) => {
+            console.log("🔍 Model data:", {
+              id: model.id,
+              directPhoto: model.photo,
+              measurementsPhotos: model.measurements?.photo,
+              fullModel: model,
             });
-            console.log("Mapped models:", mappedModels);
-            allProfiles = [...allProfiles, ...mappedModels];
-            console.log("allProfiles after models:", allProfiles);
-          }
-        } else if (modelsResponse.status === "fulfilled") {
-          console.warn("Models API failed:", modelsResponse.value.status);
-        } else {
-          console.error("Models API rejected:", modelsResponse.reason);
+
+            // Get the first photo - either from direct photo field or measurements array
+            let firstPhoto = model.photo; // This now contains the first photo
+
+            // If direct photo is empty, try to get from measurements array
+            if (
+              !firstPhoto &&
+              model.measurements?.photo &&
+              Array.isArray(model.measurements.photo)
+            ) {
+              firstPhoto = model.measurements.photo[0];
+            }
+
+            const imageUrl = getImageUrl(firstPhoto);
+            console.log("📸 Final image URL:", imageUrl);
+
+            return {
+              id: model.id,
+              name: `${model.first_name} ${model.last_name}`,
+              codeName:
+                model.username ||
+                `${model.first_name?.toUpperCase()}-${model.id}`,
+              category: "models",
+              nationality: model.nationality || "N/A",
+              city: model.city || "N/A",
+              sex: model.gender || "N/A",
+              eyesColor: model.measurements?.eye_color || "N/A",
+              hair: model.measurements?.hair_color || "N/A",
+              height: model.measurements?.height || "N/A",
+              image: imageUrl,
+              allPhotos: model.measurements?.photo || [], // All photos from measurements
+            };
+          });
+          allProfiles = [...allProfiles, ...mappedModels];
         }
+      } else {
+        console.warn("Models API failed:", modelsResponse.status);
+      }
 
-        // Process hostesses response
-        console.log("Hostesses response status:", hostessesResponse.status);
-        if (hostessesResponse.status === "fulfilled") {
-          console.log("Hostesses response ok:", hostessesResponse.value.ok);
-          console.log(
-            "Hostesses response status code:",
-            hostessesResponse.value.status
-          );
-        }
+      // Process hostesses
+      if (hostessesResponse.ok) {
+        const data = await hostessesResponse.json();
+        console.log("Hostesses API Response:", data);
 
-        if (
-          hostessesResponse.status === "fulfilled" &&
-          hostessesResponse.value.ok
-        ) {
-          const hostessesData = await hostessesResponse.value.json();
-          console.log("Hostesses API Response:", hostessesData);
+        const hostessesArray = Array.isArray(data)
+          ? data
+          : data.hostesses || data.data || [];
+        console.log("Hostesses array:", hostessesArray);
 
-          // Handle different response formats
-          let hostessesArray = [];
-          if (Array.isArray(hostessesData)) {
-            hostessesArray = hostessesData;
-          } else if (hostessesData && Array.isArray(hostessesData.data)) {
-            hostessesArray = hostessesData.data;
-          } else if (hostessesData && Array.isArray(hostessesData.hostesses)) {
-            hostessesArray = hostessesData.hostesses;
-          } else if (
-            hostessesData &&
-            hostessesData.results &&
-            Array.isArray(hostessesData.results)
-          ) {
-            hostessesArray = hostessesData.results;
-          } else {
-            console.error(
-              "Hostesses data is not in expected format:",
-              hostessesData
-            );
-            console.log(
-              "Available keys in hostesses data:",
-              Object.keys(hostessesData || {})
-            );
-          }
+        if (hostessesArray.length > 0) {
+          const mappedHostesses = hostessesArray.map((hostess: any) => {
+            console.log("🔍 hostess data:", {
+              id: hostess.id,
+              directPhoto: hostess.photo,
+              experiencePhotos: hostess.experience?.photo,
+              fullModel: hostess,
+            });
 
-          console.log("Hostesses array length:", hostessesArray.length);
+            // Get the first photo - either from direct photo field or experience array
+            let firstPhoto = hostess.photo; // This now contains the first photo
 
-          if (hostessesArray.length > 0) {
-            const mappedHostesses = hostessesArray.map((hostess: any) => ({
+            // If direct photo is empty, try to get from experience array
+            if (
+              !firstPhoto &&
+              hostess.experience?.photo &&
+              Array.isArray(hostess.experience.photo)
+            ) {
+              firstPhoto = hostess.experience.photo[0];
+            }
+
+            const imageUrl = getImageUrl(firstPhoto);
+            console.log("📸 Final image URL:", imageUrl);
+            return {
               id: hostess.id,
               name: `${hostess.first_name} ${hostess.last_name}`,
               codeName:
@@ -184,82 +179,41 @@ export default function Gallery({ locale }: { locale: string }) {
               nationality: hostess.nationality || "N/A",
               city: hostess.city || "N/A",
               sex: hostess.gender || "N/A",
-              shoeSize: hostess.shoe_size || "N/A",
-              eyesColor: hostess.eye_color || "N/A",
-              hair: hostess.hair_color || "N/A",
-              height: hostess.height || "N/A",
-              image: hostess.photo
-                ? hostess.photo.startsWith("http")
-                  ? hostess.photo
-                  : `https://modelshostesses.com/api${
-                      hostess.photo.startsWith("/") ? "" : "/"
-                    }${hostess.photo}`
-                : "/Images/models/default.jpg",
-            }));
-            console.log("Mapped hostesses:", mappedHostesses);
-            allProfiles = [...allProfiles, ...mappedHostesses];
-            console.log("allProfiles after hostesses:", allProfiles);
-          }
-        } else if (hostessesResponse.status === "fulfilled") {
-          console.warn("Hostesses API failed:", hostessesResponse.value.status);
-        } else {
-          console.warn("Hostesses API rejected:", hostessesResponse.reason);
+              eyesColor: hostess.experience?.eye_color || "N/A",
+              hair: hostess.experience?.hair_color || "N/A",
+              height: hostess.experience?.height || "N/A",
+              image: imageUrl,
+              allPhotos: hostess.experience?.photo || [],
+            };
+          });
+          allProfiles = [...allProfiles, ...mappedHostesses];
         }
-
-        // Debug: Log the final profiles array
-        console.log("Final allProfiles array:", allProfiles);
-        console.log("allProfiles length:", allProfiles.length);
-
-        // Check if we have any profiles
-        if (allProfiles.length === 0) {
-          // Check if both APIs failed with auth errors
-          const modelsAuthError =
-            modelsResponse.status === "fulfilled" &&
-            modelsResponse.value.status === 401;
-          const hostessesAuthError =
-            hostessesResponse.status === "fulfilled" &&
-            hostessesResponse.value.status === 401;
-
-          if (modelsAuthError || hostessesAuthError) {
-            throw new Error(
-              "Authentication required. Please log in to view profiles."
-            );
-          } else {
-            // Check if both APIs failed completely
-            const modelsFailed =
-              modelsResponse.status === "rejected" ||
-              (modelsResponse.status === "fulfilled" &&
-                !modelsResponse.value.ok);
-            const hostessesFailed =
-              hostessesResponse.status === "rejected" ||
-              (hostessesResponse.status === "fulfilled" &&
-                !hostessesResponse.value.ok);
-
-            if (modelsFailed && hostessesFailed) {
-              throw new Error(
-                "Unable to connect to the server. Please check your internet connection and try again."
-              );
-            } else {
-              // This is not an error - just no approved profiles yet
-              console.log("No approved profiles found - this is normal");
-              setModels([]);
-              return; // Exit early without setting error
-            }
-          }
-        }
-
-        console.log("Setting models with", allProfiles.length, "profiles");
-        setModels(allProfiles);
-      } catch (err: any) {
-        console.error("Error fetching approved profiles:", err);
-        setError(
-          err.message || "Failed to load profiles. Please try again later."
-        );
-      } finally {
-        setLoading(false);
+      } else {
+        console.warn("Hostesses API failed:", hostessesResponse.status);
       }
-    };
 
+      console.log("Final profiles:", allProfiles);
+      setModels(allProfiles);
+
+      // Handle authentication errors
+      if (allProfiles.length === 0) {
+        if (modelsResponse.status === 401 || hostessesResponse.status === 401) {
+          throw new Error(
+            "Authentication required. Please log in to view profiles."
+          );
+        }
+      }
+    } catch (err: any) {
+      console.error("Error fetching approved profiles:", err);
+      setError(
+        err.message || "Failed to load profiles. Please try again later."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchApprovedProfiles();
   }, []);
 
@@ -278,8 +232,8 @@ export default function Gallery({ locale }: { locale: string }) {
   return (
     <div className="min-h-screen pt-20 font-delius">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-rose-50 to-pink-50 py-20 ">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center ">
+      <section className="bg-gradient-to-br from-rose-50 to-pink-50 py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6">
             {t("gallery.title1")}{" "}
             <span className="text-rose-600">{t("gallery.title2")}</span>
@@ -294,7 +248,6 @@ export default function Gallery({ locale }: { locale: string }) {
       <section className="py-12 bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-            {/* Category Filter */}
             <div className="flex flex-col sm:flex-row gap-4">
               <label className="text-sm font-medium text-gray-700">
                 {t("gallery.filters.category")}
@@ -311,8 +264,6 @@ export default function Gallery({ locale }: { locale: string }) {
                 ))}
               </select>
             </div>
-
-            {/* Results Count */}
             <div className="text-sm text-gray-600">
               {filteredModels.length}{" "}
               {filteredModels.length === 1
@@ -346,7 +297,7 @@ export default function Gallery({ locale }: { locale: string }) {
               <p className="text-gray-600 mb-6">{error}</p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button
-                  onClick={() => window.location.reload()}
+                  onClick={fetchApprovedProfiles}
                   className="bg-gradient-to-r from-rose-500 to-pink-600 text-white px-6 py-3 rounded-lg font-medium hover:from-rose-600 hover:to-pink-700 transition-all duration-200"
                 >
                   Try Again
@@ -373,54 +324,33 @@ export default function Gallery({ locale }: { locale: string }) {
                     className="relative h-96 w-full cursor-pointer bg-gray-200"
                     onClick={() => openImageModal(model.image)}
                   >
-                    <Image
+                    {/* Use regular img tag for testing */}
+                    <img
                       src={model.image}
                       alt={model.name}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       onError={(e) => {
-                        console.error(
-                          `Failed to load image for ${model.name}:`,
-                          model.image
-                        );
-                        // Hide the image and show fallback
-                        e.currentTarget.style.display = "none";
-                        const fallback = document.getElementById(
-                          `fallback-${model.id}`
-                        );
-                        if (fallback) {
-                          fallback.style.opacity = "1";
-                        }
+                        console.error("❌ Image failed to load:", model.image);
+                        e.currentTarget.src = "/Images/models/default.jpg";
                       }}
                       onLoad={() => {
                         console.log(
-                          `Successfully loaded image for ${model.name}:`,
+                          "✅ Image loaded successfully:",
                           model.image
                         );
                       }}
                     />
-                    {/* Fallback content if image fails - hidden by default */}
-                    <div
-                      className="absolute inset-0 flex items-center justify-center bg-gray-200 text-gray-500 opacity-0 transition-opacity duration-300"
-                      id={`fallback-${model.id}`}
-                    >
-                      <div className="text-center">
-                        <div className="text-4xl mb-2">📷</div>
-                        <div className="text-sm">No Image Available</div>
-                      </div>
-                    </div>
-                    {/* Gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                    {/* Readability overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
                     {/* Category badge */}
                     <span
                       className={`absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-medium shadow-md 
-                ${
-                  model.category === "models"
-                    ? "bg-blue-600 text-white"
-                    : "bg-pink-600 text-white"
-                }
-              `}
+                        ${
+                          model.category === "models"
+                            ? "bg-blue-600 text-white"
+                            : "bg-pink-600 text-white"
+                        }
+                      `}
                     >
                       {model.category === "models"
                         ? t("gallery.categories.models")
@@ -428,52 +358,80 @@ export default function Gallery({ locale }: { locale: string }) {
                     </span>
                   </div>
 
+                  {/* Thumbnails (show additional photos if available) */}
+                  {Array.isArray(model.allPhotos) &&
+                    model.allPhotos.length > 1 && (
+                      <div className="px-4 pb-4 pt-3 bg-white/70">
+                        <div className="grid grid-cols-5 gap-2">
+                          {model.allPhotos
+                            .slice(0, 5)
+                            .map((thumbPath: string, idx: number) => {
+                              const thumbUrl = getImageUrl(thumbPath);
+                              return (
+                                <button
+                                  key={`${model.id}-thumb-${idx}`}
+                                  onClick={() => openImageModal(thumbUrl)}
+                                  className="relative w-full aspect-square overflow-hidden rounded-md border border-gray-200 hover:ring-2 hover:ring-rose-400"
+                                  aria-label={`View photo ${idx + 1} of ${
+                                    model.name
+                                  }`}
+                                >
+                                  <img
+                                    src={thumbUrl}
+                                    alt={`${model.name} thumbnail ${idx + 1}`}
+                                    className="object-cover w-full h-full"
+                                    onError={(e) => {
+                                      e.currentTarget.src =
+                                        "/Images/models/default.jpg";
+                                    }}
+                                  />
+                                </button>
+                              );
+                            })}
+                        </div>
+                      </div>
+                    )}
+
                   {/* Info */}
-                  <div className="absolute bottom-0 w-full p-5 text-white">
+                  <div className="w-full p-5 text-gray-900">
                     <h3 className="text-lg font-semibold mb-1">{model.name}</h3>
-                    <p className="text-sm text-gray-200 mb-3">
+                    <p className="text-sm text-rose-600 mb-3">
                       {model.codeName}
                     </p>
 
                     <div className="grid grid-cols-2 gap-y-2 text-sm">
                       <p>
-                        <span className="text-gray-300">
+                        <span className="text-gray-600">
                           {t("gallery.modelCard.nationality")}
                         </span>{" "}
                         {model.nationality}
                       </p>
                       <p>
-                        <span className="text-gray-300">
+                        <span className="text-gray-600">
                           {t("gallery.modelCard.city")}
                         </span>{" "}
                         {model.city}
                       </p>
                       <p>
-                        <span className="text-gray-300">
+                        <span className="text-gray-600">
                           {t("gallery.modelCard.sex")}
                         </span>{" "}
                         {model.sex}
                       </p>
                       <p>
-                        <span className="text-gray-300">
+                        <span className="text-gray-600">
                           {t("gallery.modelCard.height")}
                         </span>{" "}
                         {model.height}
                       </p>
                       <p>
-                        <span className="text-gray-300">
-                          {t("gallery.modelCard.shoeSize")}
-                        </span>{" "}
-                        {model.shoeSize}
-                      </p>
-                      <p>
-                        <span className="text-gray-300">
+                        <span className="text-gray-600">
                           {t("gallery.modelCard.eyes")}
                         </span>{" "}
                         {model.eyesColor}
                       </p>
                       <p>
-                        <span className="text-gray-300">
+                        <span className="text-gray-600">
                           {t("gallery.modelCard.hair")}
                         </span>{" "}
                         {model.hair}
@@ -493,20 +451,12 @@ export default function Gallery({ locale }: { locale: string }) {
                 We're currently reviewing applications. Check back soon to see
                 our approved models and hostesses!
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button
-                  onClick={() => window.location.reload()}
-                  className="bg-gradient-to-r from-rose-500 to-pink-600 text-white px-6 py-3 rounded-lg font-medium hover:from-rose-600 hover:to-pink-700 transition-all duration-200"
-                >
-                  Refresh
-                </button>
-                <button
-                  onClick={() => setSelectedCategory("all")}
-                  className="bg-transparent border-2 border-rose-500 text-rose-500 px-6 py-3 rounded-lg font-medium hover:bg-rose-500 hover:text-white transition-all duration-200"
-                >
-                  Show All Categories
-                </button>
-              </div>
+              <button
+                onClick={fetchApprovedProfiles}
+                className="bg-gradient-to-r from-rose-500 to-pink-600 text-white px-6 py-3 rounded-lg font-medium hover:from-rose-600 hover:to-pink-700 transition-all duration-200"
+              >
+                Refresh
+              </button>
             </div>
           )}
         </div>

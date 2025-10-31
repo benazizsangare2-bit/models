@@ -31,8 +31,7 @@ export interface HostessFormData {
   weight: string;
   hairColor: string;
   eyeColor: string;
-  photo: File | null;
-  additionalPhotos: File[];
+  photo: File[];
   socialMedia: {
     instagram: string;
     facebook: string;

@@ -47,7 +47,6 @@
       "city": "Ville :",
       "sex": "Sexe :",
       "height": "Taille :",
-      "shoeSize": "Pointure :",
       "eyes": "Yeux :",
       "hair": "Cheveux :"
     },
@@ -219,13 +218,17 @@
     "email": "Email: ",
     "id": "User ID: ",
     "Logout": "Deconnecter",
+    "logoutConfirm": "Confirmation de déconnexion",
     "username": "Nom d'utilisateur *",
     "fullname": "Nom complet",
     "editAccount": "Modifier mes informations",
     "editApplications": "modifier mon application",
     "viewApplications": "Voir mes applications",
     "getStarted": "Etes vous un Mannequin ou une Hôtesses ?",
-    "getStartedButton": "🌟 Commencer la procedure d'enregistrement"
+    "getStartedButton": "🌟 Commencer la procedure d'enregistrement",
+    "logoutConfirmMessage": "Êtes-vous sûr de vouloir vous déconnecter?",
+    "Yes": "Oui",
+    "No": "Non"
   },
   "modelRegistration": {
     "title": "Formulaire d'inscription",
@@ -283,14 +286,16 @@
         "selectEyeColor": "Sélectionner la couleur des yeux",
         "waist": "Tour de taille (cm) *",
         "hips": "Tour de hanches (cm) *",
-        "profilePhoto": "Photo de profil *",
+        "profilePhoto": "Photo de profil (5 au minimum) *",
         "additionalPhotos": "Photos supplémentaires (jusqu'à 5)",
         "additionalPhotosDescription": "Ajoutez jusqu'à 5 photos pour présenter votre profil",
         "socialMedia": "Liens des réseaux sociaux",
         "instagram": "Instagram",
         "facebook": "Facebook",
         "twitter": "Twitter",
-        "linkedin": "LinkedIn"
+        "linkedin": "LinkedIn",
+        "minPhotosAlert": "Veuillez télécharger au moins 5 photos.",
+        "minPhotosHint": "Minimum 5 photos requises"
       },
       "documentVerification": {
         "title": "Vérification des documents",

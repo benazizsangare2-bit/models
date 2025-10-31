@@ -1,5 +1,5 @@
 "use client";
-
+import { parsePhotoArray } from "../../admin/utils/photoUtils";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 
@@ -16,29 +16,51 @@ interface Hostess {
   street: string;
   city: string;
   residence_country: string;
-  emergency_contact_name: string;
-  emergency_contact_relationship: string;
-  emergency_contact_phone: string;
-  height: string;
-  weight: string;
-  shoe_size: string;
-  hair_color: string;
-  eye_color: string;
-  photo: string;
-  additional_photos: string[];
-  social_instagram: string;
-  social_facebook: string;
-  social_twitter: string;
-  social_linkedin: string;
-  document_number: string;
-  document_issuer_country: string;
-  document_type: string;
-  document_front: string;
-  document_back: string;
-  selfie_with_id: string;
   status: "pending" | "approved" | "rejected";
+  registration_step: boolean;
+  deleted: boolean;
   created_at: string;
   updated_at: string;
+
+  emergency_contact: {
+    name: string;
+    relationship: string;
+    phone: string;
+  };
+
+  user_info: {
+    fullname: string;
+    email: string;
+    phone: string;
+  };
+  experience: {
+    work_experience: string;
+    languages: string;
+    skills: string;
+    availability: string;
+    preferred_events: string;
+    previous_hostess_work: string;
+    reference_contact: string;
+    height: string;
+    weight: string;
+    hair_color: string;
+    eye_color: string;
+    photo: string | string[]; // Change this to accept both string and array
+    social_instagram: string;
+    social_facebook: string;
+    social_twitter: string;
+    social_linkedin: string;
+  };
+  documents: {
+    document_issuer_country: string;
+    document_type: string;
+    document_front: string;
+    document_back: string;
+  };
+  identity_check: {
+    selfie_with_id: string;
+    verified: boolean;
+  };
 }
 
 interface HostessModalProps {
@@ -64,12 +86,29 @@ export default function HostessModal({
     setEditedHostess(hostess);
   }, [hostess]);
 
-  const getImageUrl = (photo: string) => {
+  const getImageUrl = (photo: any) => {
     if (!photo) return "/Images/models/default.jpg";
-    if (photo.startsWith("http")) return photo;
+
+    let photoPath = "";
+
+    // If it's already an array, take the first element (for consistency)
+    if (Array.isArray(photo)) {
+      photoPath = photo[0];
+    }
+    // If it's a string, use it directly
+    else if (typeof photo === "string") {
+      photoPath = photo;
+    }
+
+    // Clean up the path
+    photoPath = photoPath.replace(/[{}"]/g, "").trim();
+
+    if (!photoPath) return "/Images/models/default.jpg";
+    if (photoPath.startsWith("http")) return photoPath;
+
     return `https://modelshostesses.com/api${
-      photo.startsWith("/") ? "" : "/"
-    }${photo}`;
+      photoPath.startsWith("/") ? "" : "/"
+    }${photoPath}`;
   };
 
   const handleSave = () => {
@@ -93,7 +132,7 @@ export default function HostessModal({
 
   return (
     <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+      <div className="bg-white rounded-lg shadow-xl max-w-6xl w-full max-h-[95vh] overflow-hidden">
         {/* Header */}
         <div className="px-6 py-4 border-b flex items-center justify-between">
           <h2 className="text-xl font-semibold text-gray-900">
@@ -330,11 +369,14 @@ export default function HostessModal({
                     </label>
                     <input
                       type="text"
-                      value={editedHostess.emergency_contact_name}
+                      value={editedHostess.emergency_contact.name}
                       onChange={(e) =>
                         setEditedHostess({
                           ...editedHostess,
-                          emergency_contact_name: e.target.value,
+                          emergency_contact: {
+                            ...editedHostess.emergency_contact,
+                            name: e.target.value,
+                          },
                         })
                       }
                       disabled={!isEditing}
@@ -347,11 +389,14 @@ export default function HostessModal({
                     </label>
                     <input
                       type="text"
-                      value={editedHostess.emergency_contact_relationship}
+                      value={editedHostess.emergency_contact.relationship}
                       onChange={(e) =>
                         setEditedHostess({
                           ...editedHostess,
-                          emergency_contact_relationship: e.target.value,
+                          emergency_contact: {
+                            ...editedHostess.emergency_contact,
+                            relationship: e.target.value,
+                          },
                         })
                       }
                       disabled={!isEditing}
@@ -364,11 +409,14 @@ export default function HostessModal({
                     </label>
                     <input
                       type="text"
-                      value={editedHostess.emergency_contact_phone}
+                      value={editedHostess.emergency_contact.phone}
                       onChange={(e) =>
                         setEditedHostess({
                           ...editedHostess,
-                          emergency_contact_phone: e.target.value,
+                          emergency_contact: {
+                            ...editedHostess.emergency_contact,
+                            phone: e.target.value,
+                          },
                         })
                       }
                       disabled={!isEditing}
@@ -385,15 +433,165 @@ export default function HostessModal({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
+                    Work Experience
+                  </label>
+                  <input
+                    type="text"
+                    value={editedHostess.experience.work_experience}
+                    onChange={(e) =>
+                      setEditedHostess({
+                        ...editedHostess,
+                        experience: {
+                          ...editedHostess.experience,
+                          work_experience: e.target.value,
+                        },
+                      })
+                    }
+                    disabled={!isEditing}
+                    className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 disabled:bg-gray-100"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Languages
+                  </label>
+                  <input
+                    type="text"
+                    value={editedHostess.experience.languages}
+                    onChange={(e) =>
+                      setEditedHostess({
+                        ...editedHostess,
+                        experience: {
+                          ...editedHostess.experience,
+                          languages: e.target.value,
+                        },
+                      })
+                    }
+                    disabled={!isEditing}
+                    className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 disabled:bg-gray-100"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Skills
+                  </label>
+                  <input
+                    type="text"
+                    value={editedHostess.experience.skills}
+                    onChange={(e) =>
+                      setEditedHostess({
+                        ...editedHostess,
+                        experience: {
+                          ...editedHostess.experience,
+                          skills: e.target.value,
+                        },
+                      })
+                    }
+                    disabled={!isEditing}
+                    className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 disabled:bg-gray-100"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Availability
+                  </label>
+                  <input
+                    type="text"
+                    value={editedHostess.experience.availability}
+                    onChange={(e) =>
+                      setEditedHostess({
+                        ...editedHostess,
+                        experience: {
+                          ...editedHostess.experience,
+                          availability: e.target.value,
+                        },
+                      })
+                    }
+                    disabled={!isEditing}
+                    className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 disabled:bg-gray-100"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Preffered Events
+                  </label>
+                  <input
+                    type="text"
+                    value={editedHostess.experience.preferred_events}
+                    onChange={(e) =>
+                      setEditedHostess({
+                        ...editedHostess,
+                        experience: {
+                          ...editedHostess.experience,
+                          preferred_events: e.target.value,
+                        },
+                      })
+                    }
+                    disabled={!isEditing}
+                    className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 disabled:bg-gray-100"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Previous hostess work
+                  </label>
+                  <input
+                    type="text"
+                    value={editedHostess.experience.previous_hostess_work}
+                    onChange={(e) =>
+                      setEditedHostess({
+                        ...editedHostess,
+                        experience: {
+                          ...editedHostess.experience,
+                          previous_hostess_work: e.target.value,
+                        },
+                      })
+                    }
+                    disabled={!isEditing}
+                    className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 disabled:bg-gray-100"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    References
+                  </label>
+                  <input
+                    type="text"
+                    value={editedHostess.experience.reference_contact}
+                    onChange={(e) =>
+                      setEditedHostess({
+                        ...editedHostess,
+                        experience: {
+                          ...editedHostess.experience,
+                          reference_contact: e.target.value,
+                        },
+                      })
+                    }
+                    disabled={!isEditing}
+                    className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 disabled:bg-gray-100"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
                     Height
                   </label>
                   <input
                     type="text"
-                    value={editedHostess.height}
+                    value={editedHostess.experience.height}
                     onChange={(e) =>
                       setEditedHostess({
                         ...editedHostess,
-                        height: e.target.value,
+                        experience: {
+                          ...editedHostess.experience,
+                          height: e.target.value,
+                        },
                       })
                     }
                     disabled={!isEditing}
@@ -406,28 +604,14 @@ export default function HostessModal({
                   </label>
                   <input
                     type="text"
-                    value={editedHostess.weight}
+                    value={editedHostess.experience.weight}
                     onChange={(e) =>
                       setEditedHostess({
                         ...editedHostess,
-                        weight: e.target.value,
-                      })
-                    }
-                    disabled={!isEditing}
-                    className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 disabled:bg-gray-100"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Shoe Size
-                  </label>
-                  <input
-                    type="text"
-                    value={editedHostess.shoe_size}
-                    onChange={(e) =>
-                      setEditedHostess({
-                        ...editedHostess,
-                        shoe_size: e.target.value,
+                        experience: {
+                          ...editedHostess.experience,
+                          weight: e.target.value,
+                        },
                       })
                     }
                     disabled={!isEditing}
@@ -440,11 +624,14 @@ export default function HostessModal({
                   </label>
                   <input
                     type="text"
-                    value={editedHostess.hair_color}
+                    value={editedHostess.experience.hair_color}
                     onChange={(e) =>
                       setEditedHostess({
                         ...editedHostess,
-                        hair_color: e.target.value,
+                        experience: {
+                          ...editedHostess.experience,
+                          hair_color: e.target.value,
+                        },
                       })
                     }
                     disabled={!isEditing}
@@ -457,11 +644,14 @@ export default function HostessModal({
                   </label>
                   <input
                     type="text"
-                    value={editedHostess.eye_color}
+                    value={editedHostess.experience.eye_color}
                     onChange={(e) =>
                       setEditedHostess({
                         ...editedHostess,
-                        eye_color: e.target.value,
+                        experience: {
+                          ...editedHostess.experience,
+                          eye_color: e.target.value,
+                        },
                       })
                     }
                     disabled={!isEditing}
@@ -470,47 +660,65 @@ export default function HostessModal({
                 </div>
               </div>
 
-              {/* Profile Photo */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Profile Photo
-                </label>
-                <div className="w-32 h-32 rounded-lg overflow-hidden bg-gray-200">
-                  <Image
-                    src={getImageUrl(editedHostess.photo)}
-                    alt="Profile"
-                    width={128}
-                    height={128}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </div>
+              {/* Profile Photos */}
+              {(() => {
+                // Parse the photos into an array using the imported function
+                const photoArray = parsePhotoArray(
+                  editedHostess.experience.photo
+                );
 
-              {/* Additional Photos */}
-              {editedHostess.additional_photos &&
-                editedHostess.additional_photos.length > 0 && (
+                return photoArray.length > 0 ? (
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Additional Photos
+                      Profile Photos ({photoArray.length} photos)
                     </label>
-                    <div className="grid grid-cols-4 gap-2">
-                      {editedHostess.additional_photos.map((photo, index) => (
+
+                    {/* Display multiple photos in a grid */}
+                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                      {photoArray.map((photoPath, index) => (
                         <div
                           key={index}
-                          className="w-20 h-20 rounded-lg overflow-hidden bg-gray-200"
+                          className="relative w-full aspect-square rounded-lg overflow-hidden bg-gray-200 border group"
                         >
                           <Image
-                            src={getImageUrl(photo)}
-                            alt={`Additional photo ${index + 1}`}
-                            width={80}
-                            height={80}
-                            className="w-full h-full object-cover"
+                            src={getImageUrl(photoPath)}
+                            alt={`Profile photo ${index + 1}`}
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 16vw"
+                            onError={(e) => {
+                              e.currentTarget.src =
+                                "/Images/models/default.jpg";
+                            }}
                           />
+                          <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1 text-center transition-opacity group-hover:opacity-0">
+                            Photo {index + 1}
+                          </div>
                         </div>
                       ))}
                     </div>
                   </div>
-                )}
+                ) : (
+                  <div className="text-center py-8 text-gray-500 border-2 border-dashed border-gray-300 rounded-lg">
+                    <div className="w-16 h-16 mx-auto mb-2 bg-gray-200 rounded-full flex items-center justify-center">
+                      <svg
+                        className="w-8 h-8 text-gray-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                        />
+                      </svg>
+                    </div>
+                    No profile photos uploaded yet
+                  </div>
+                );
+              })()}
             </div>
           )}
 
@@ -519,32 +727,18 @@ export default function HostessModal({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
-                    Document Number
-                  </label>
-                  <input
-                    type="text"
-                    value={editedHostess.document_number}
-                    onChange={(e) =>
-                      setEditedHostess({
-                        ...editedHostess,
-                        document_number: e.target.value,
-                      })
-                    }
-                    disabled={!isEditing}
-                    className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 disabled:bg-gray-100"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
                     Document Type
                   </label>
                   <input
                     type="text"
-                    value={editedHostess.document_type}
+                    value={editedHostess.documents.document_type}
                     onChange={(e) =>
                       setEditedHostess({
                         ...editedHostess,
-                        document_type: e.target.value,
+                        documents: {
+                          ...editedHostess.documents,
+                          document_type: e.target.value,
+                        },
                       })
                     }
                     disabled={!isEditing}
@@ -557,11 +751,14 @@ export default function HostessModal({
                   </label>
                   <input
                     type="text"
-                    value={editedHostess.document_issuer_country}
+                    value={editedHostess.documents.document_issuer_country}
                     onChange={(e) =>
                       setEditedHostess({
                         ...editedHostess,
-                        document_issuer_country: e.target.value,
+                        documents: {
+                          ...editedHostess.documents,
+                          document_issuer_country: e.target.value,
+                        },
                       })
                     }
                     disabled={!isEditing}
@@ -572,14 +769,16 @@ export default function HostessModal({
 
               {/* Document Images */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {editedHostess.document_front && (
+                {editedHostess.documents.document_front && (
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Document Front
                     </label>
                     <div className="w-full h-48 rounded-lg overflow-hidden bg-gray-200">
                       <Image
-                        src={getImageUrl(editedHostess.document_front)}
+                        src={getImageUrl(
+                          editedHostess.documents.document_front
+                        )}
                         alt="Document Front"
                         width={400}
                         height={200}
@@ -588,14 +787,14 @@ export default function HostessModal({
                     </div>
                   </div>
                 )}
-                {editedHostess.document_back && (
+                {editedHostess.documents.document_back && (
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Document Back
                     </label>
                     <div className="w-full h-48 rounded-lg overflow-hidden bg-gray-200">
                       <Image
-                        src={getImageUrl(editedHostess.document_back)}
+                        src={getImageUrl(editedHostess.documents.document_back)}
                         alt="Document Back"
                         width={400}
                         height={200}
@@ -607,14 +806,16 @@ export default function HostessModal({
               </div>
 
               {/* Selfie with ID */}
-              {editedHostess.selfie_with_id && (
+              {editedHostess.identity_check.selfie_with_id && (
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Selfie with ID
                   </label>
                   <div className="w-48 h-48 rounded-lg overflow-hidden bg-gray-200">
                     <Image
-                      src={getImageUrl(editedHostess.selfie_with_id)}
+                      src={getImageUrl(
+                        editedHostess.identity_check.selfie_with_id
+                      )}
                       alt="Selfie with ID"
                       width={200}
                       height={200}
@@ -635,11 +836,14 @@ export default function HostessModal({
                   </label>
                   <input
                     type="text"
-                    value={editedHostess.social_instagram}
+                    value={editedHostess.experience.social_instagram}
                     onChange={(e) =>
                       setEditedHostess({
                         ...editedHostess,
-                        social_instagram: e.target.value,
+                        experience: {
+                          ...editedHostess.experience,
+                          social_instagram: e.target.value,
+                        },
                       })
                     }
                     disabled={!isEditing}
@@ -652,11 +856,14 @@ export default function HostessModal({
                   </label>
                   <input
                     type="text"
-                    value={editedHostess.social_facebook}
+                    value={editedHostess.experience.social_facebook}
                     onChange={(e) =>
                       setEditedHostess({
                         ...editedHostess,
-                        social_facebook: e.target.value,
+                        experience: {
+                          ...editedHostess.experience,
+                          social_facebook: e.target.value,
+                        },
                       })
                     }
                     disabled={!isEditing}
@@ -669,11 +876,14 @@ export default function HostessModal({
                   </label>
                   <input
                     type="text"
-                    value={editedHostess.social_twitter}
+                    value={editedHostess.experience.social_twitter}
                     onChange={(e) =>
                       setEditedHostess({
                         ...editedHostess,
-                        social_twitter: e.target.value,
+                        experience: {
+                          ...editedHostess.experience,
+                          social_twitter: e.target.value,
+                        },
                       })
                     }
                     disabled={!isEditing}
@@ -686,11 +896,14 @@ export default function HostessModal({
                   </label>
                   <input
                     type="text"
-                    value={editedHostess.social_linkedin}
+                    value={editedHostess.experience.social_linkedin}
                     onChange={(e) =>
                       setEditedHostess({
                         ...editedHostess,
-                        social_linkedin: e.target.value,
+                        experience: {
+                          ...editedHostess.experience,
+                          social_linkedin: e.target.value,
+                        },
                       })
                     }
                     disabled={!isEditing}

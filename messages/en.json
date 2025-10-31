@@ -47,7 +47,6 @@
       "city": "City:",
       "sex": "Sex:",
       "height": "Height:",
-      "shoeSize": "Shoe Size:",
       "eyes": "Eyes:",
       "hair": "Hair:"
     },
@@ -222,7 +221,11 @@
     "editApplications": "edit your application",
     "viewApplications": "view applications",
     "getStarted": "Are you a Model or an Hostess?",
-    "getStartedButton": "🌟 Get the registration process Started"
+    "getStartedButton": "🌟 Get the registration process Started",
+    "logoutConfirm": "Logout Confirmation",
+    "logoutConfirmMessage": "Are you sure you want to logout?",
+    "Yes": "Yes",
+    "No": "No"
   },
   "modelRegistration": {
     "title": "Registration form",
@@ -280,14 +283,16 @@
         "selectEyeColor": "Select eye color",
         "waist": "Waist (cm) *",
         "hips": "Hips (cm) *",
-        "profilePhoto": "Profile Photo *",
+        "profilePhoto": "Profile Photo (minimum 5)*",
         "additionalPhotos": "Additional Photos (up to 5)",
         "additionalPhotosDescription": "Add up to 5 photos to showcase your profile",
         "socialMedia": "Social Media Links",
         "instagram": "Instagram",
         "facebook": "Facebook",
         "twitter": "Twitter",
-        "linkedin": "LinkedIn"
+        "linkedin": "LinkedIn",
+        "minPhotosAlert": "Please upload at least 5 photos.",
+        "minPhotosHint": "Minimum 5 photos required"
       },
       "documentVerification": {
         "title": "Document Verification",

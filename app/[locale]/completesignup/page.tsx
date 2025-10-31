@@ -36,6 +36,7 @@ export default function CompleteRegistration({
 
     try {
       const res = await fetch(
+        //  "https://modelshostesses.com/api/register/complete",
         "https://modelshostesses.com/api/register/complete",
         {
           method: "POST",

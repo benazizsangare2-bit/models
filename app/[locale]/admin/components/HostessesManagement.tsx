@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useTranslations } from "next-intl";
 import HostessModal from "./HostessModal";
 import HostessCard from "./HostessCard";
 
@@ -18,33 +17,54 @@ interface Hostess {
   street: string;
   city: string;
   residence_country: string;
-  emergency_contact_name: string;
-  emergency_contact_relationship: string;
-  emergency_contact_phone: string;
-  height: string;
-  weight: string;
-  shoe_size: string;
-  hair_color: string;
-  eye_color: string;
-  photo: string;
-  additional_photos: string[];
-  social_instagram: string;
-  social_facebook: string;
-  social_twitter: string;
-  social_linkedin: string;
-  document_number: string;
-  document_issuer_country: string;
-  document_type: string;
-  document_front: string;
-  document_back: string;
-  selfie_with_id: string;
   status: "pending" | "approved" | "rejected";
+  registration_step: boolean;
+  deleted: boolean;
   created_at: string;
   updated_at: string;
+
+  emergency_contact: {
+    name: string;
+    relationship: string;
+    phone: string;
+  };
+
+  user_info: {
+    fullname: string;
+    email: string;
+    phone: string;
+  };
+  experience: {
+    work_experience: string;
+    languages: string;
+    skills: string;
+    availability: string;
+    preferred_events: string;
+    previous_hostess_work: string;
+    reference_contact: string;
+    height: string;
+    weight: string;
+    hair_color: string;
+    eye_color: string;
+    photo: string | string[]; // Change this to accept both string and array
+    social_instagram: string;
+    social_facebook: string;
+    social_twitter: string;
+    social_linkedin: string;
+  };
+  documents: {
+    document_issuer_country: string;
+    document_type: string;
+    document_front: string;
+    document_back: string;
+  };
+  identity_check: {
+    selfie_with_id: string;
+    verified: boolean;
+  };
 }
 
 export default function HostessesManagement() {
-  const t = useTranslations();
   const [hostesses, setHostesses] = useState<Hostess[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -62,7 +82,7 @@ export default function HostessesManagement() {
       setLoading(true);
       setError(null);
 
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("adminToken");
       if (!token) {
         throw new Error("Authentication required");
       }
@@ -114,7 +134,7 @@ export default function HostessesManagement() {
   ) => {
     try {
       setActionLoading(hostessId);
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("adminToken");
       if (!token) {
         throw new Error("Authentication required");
       }
@@ -166,13 +186,13 @@ export default function HostessesManagement() {
     }
 
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("adminToken");
       if (!token) {
         throw new Error("Authentication required");
       }
 
       const response = await fetch(
-        `https://modelshostesses.com/api/api/hostesses/${hostessId}`,
+        `https://modelshostesses.com/api/api/admin/hostesses/${hostessId}`,
         {
           method: "DELETE",
           headers: {
@@ -205,7 +225,7 @@ export default function HostessesManagement() {
     updatedData: Partial<Hostess>
   ) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("adminToken");
       if (!token) {
         throw new Error("Authentication required");
       }
@@ -379,17 +399,16 @@ export default function HostessesManagement() {
             </p>
             <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
               <p className="text-sm text-yellow-800">
-                <strong>Note:</strong> If you're seeing this message, the
-                hostesses API endpoints may not be implemented yet. Please
-                ensure the following endpoints are available:
+                <strong>Note:</strong> If you're seeing this message, either the
+                hostess could ne be fully registered yet or the hostesses API
+                endpoint had an issue.
               </p>
-              <ul className="text-xs text-yellow-700 mt-2 text-left">
-                <li>• GET /api/admin/hostesses</li>
-                <li>• POST /api/admin/hostesses/:id/approve</li>
-                <li>• POST /api/admin/hostesses/:id/reject</li>
-                <li>• PUT /api/hostesses/:id</li>
-                <li>• DELETE /api/hostesses/:id</li>
-              </ul>
+              <p>
+                {" "}
+                Try to register an hostess and if the problem continues, Get in
+                touch with your developer more more details. Thank you for your
+                comprehension
+              </p>
             </div>
           </div>
         ) : (

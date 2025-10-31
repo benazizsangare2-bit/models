@@ -20,8 +20,7 @@ export interface ModelFormData {
   eyeColor: string;
   waist: string;
   hips: string;
-  photo: File | null;
-  additionalPhotos: File[];
+  photo: File[];
   socialMedia: {
     instagram: string;
     facebook: string;

@@ -100,14 +100,17 @@ export default function WorkExperience({
   };
 
   const handleMultipleFilesChange = (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
+    field: string
   ) => {
-    const files = Array.from(e.target.files || []);
-    if (files.length <= 5) {
+    const file = Array.from(e.target.files || []);
+    if (file.length >= 5) {
       setFormData((prev) => ({
         ...prev,
-        additionalPhotos: files,
+        [field]: file,
       }));
+    } else {
+      alert(t("modelRegistration.form.profileExperience.minPhotosAlert"));
     }
   };
 
@@ -366,28 +369,11 @@ export default function WorkExperience({
         <input
           type="file"
           accept="image/*"
-          required
-          onChange={(e) => handleFileChange(e, "photo")}
-          className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent"
-        />
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          {t("hostessRegistration.form.workExperience.additionalPhotos")}
-        </label>
-        <input
-          type="file"
-          accept="image/*"
           multiple
-          onChange={handleMultipleFilesChange}
+          required
+          onChange={(e) => handleMultipleFilesChange(e, "photo")}
           className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent"
         />
-        <p className="text-sm text-gray-500 mt-1">
-          {t(
-            "hostessRegistration.form.workExperience.additionalPhotosDescription"
-          )}
-        </p>
       </div>
 
       {/* Social Media */}

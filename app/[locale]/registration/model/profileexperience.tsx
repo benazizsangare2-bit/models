@@ -13,7 +13,16 @@ const hairColors = [
   "Other",
 ];
 
-const eyeColors = ["Brown", "Blue", "Green", "Hazel", "Gray", "Amber", "Other"];
+const eyeColors = [
+  "Black",
+  "Brown",
+  "Blue",
+  "Green",
+  "Hazel",
+  "Gray",
+  "Amber",
+  "Other",
+];
 
 export default function ProfileExperience({
   formData,
@@ -47,24 +56,14 @@ export default function ProfileExperience({
     e: React.ChangeEvent<HTMLInputElement>,
     field: string
   ) => {
-    const file = e.target.files?.[0];
-    if (file) {
+    const file = Array.from(e.target.files || []);
+    if (file.length >= 5) {
       setFormData((prev) => ({
         ...prev,
         [field]: file,
       }));
-    }
-  };
-
-  const handleMultipleFilesChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const files = Array.from(e.target.files || []);
-    if (files.length <= 5) {
-      setFormData((prev) => ({
-        ...prev,
-        additionalPhotos: files,
-      }));
+    } else {
+      alert(t("modelRegistration.form.profileExperience.minPhotosAlert"));
     }
   };
 
@@ -201,26 +200,13 @@ export default function ProfileExperience({
           type="file"
           accept="image/*"
           required
+          multiple
           onChange={(e) => handleFileChange(e, "photo")}
           className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent"
         />
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          {t("modelRegistration.form.profileExperience.additionalPhotos")}
-        </label>
-        <input
-          type="file"
-          accept="image/*"
-          multiple
-          onChange={handleMultipleFilesChange}
-          className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent"
-        />
         <p className="text-sm text-gray-500 mt-1">
-          {t(
-            "modelRegistration.form.profileExperience.additionalPhotosDescription"
-          )}
+          {t("minPhotosHint")}{" "}
+          {/* Add translation for "Minimum 6 photos required" */}
         </p>
       </div>
 

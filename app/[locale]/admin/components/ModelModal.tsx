@@ -1,12 +1,13 @@
 "use client";
-
+import { parsePhotoArray } from "../../admin/utils/photoUtils";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 
 interface Model {
   id: string;
+  user_id: string;
   first_name: string;
-  last_name: string;
+  last_name: string; //    IMPLEMENT THE UPDATE FUNCTIONALITY AND ALSO THE APPROVE FUNCTIONALITY FOR HOSTESSES
   username: string;
   email: string;
   whatsapp: string;
@@ -16,29 +17,45 @@ interface Model {
   street: string;
   city: string;
   residence_country: string;
-  emergency_contact_name: string;
-  emergency_contact_relationship: string;
-  emergency_contact_phone: string;
-  height: string;
-  weight: string;
-  shoe_size: string;
-  hair_color: string;
-  eye_color: string;
-  photo: string;
-  additional_photos: string[];
-  social_instagram: string;
-  social_facebook: string;
-  social_twitter: string;
-  social_linkedin: string;
-  document_number: string;
-  document_issuer_country: string;
-  document_type: string;
-  document_front: string;
-  document_back: string;
-  selfie_with_id: string;
   status: "pending" | "approved" | "rejected";
+  registration_step: number;
+  deleted: boolean;
   created_at: string;
   updated_at: string;
+
+  // Nested objects
+  user_info: {
+    fullname: string;
+    email: string;
+    phone: string;
+  };
+
+  measurements: {
+    experience: string;
+    height: number;
+    weight: number;
+    hips: number;
+    waist: number;
+    hair_color: string;
+    eye_color: string;
+    photo: string[]; // This might be a string array if multiple photos
+    social_instagram: string;
+    social_facebook: string;
+    social_twitter: string;
+    social_linkedin: string;
+  };
+
+  documents: {
+    document_issuer_country: string;
+    document_type: string;
+    document_front: string;
+    document_back: string;
+  };
+
+  identity_check: {
+    selfie_with_id: string;
+    verified: boolean;
+  };
 }
 
 interface ModelModalProps {
@@ -64,12 +81,51 @@ export default function ModelModal({
     setEditedModel(model);
   }, [model]);
 
-  const getImageUrl = (photo: string) => {
+  const getImageUrl = (photo: any) => {
     if (!photo) return "/Images/models/default.jpg";
-    if (photo.startsWith("http")) return photo;
+
+    let photoPath = "";
+
+    // Case 1: Already an array - take first element
+    if (Array.isArray(photo)) {
+      photoPath = photo[0];
+    }
+    // Case 2: String that might contain multiple photos
+    else if (typeof photo === "string") {
+      // Check if it's a JSON array string like '{"path1","path2"}'
+      if (photo.startsWith("{")) {
+        try {
+          // Convert PostgreSQL array format to JSON array
+          const jsonStr = photo
+            .replace(/{/g, '["')
+            .replace(/}/g, '"]')
+            .replace(/,/g, '","');
+          const parsed = JSON.parse(jsonStr);
+          photoPath = Array.isArray(parsed) ? parsed[0] : parsed;
+        } catch {
+          // If JSON parsing fails, try comma separation
+          photoPath = photo.split(",")[0].replace(/[{}"]/g, "").trim();
+        }
+      }
+      // Case 3: Comma-separated string
+      else if (photo.includes(",")) {
+        photoPath = photo.split(",")[0].trim();
+      }
+      // Case 4: Single string
+      else {
+        photoPath = photo;
+      }
+    }
+
+    // Clean up the path
+    photoPath = photoPath.replace(/[{}"]/g, "").trim();
+
+    if (!photoPath) return "/Images/models/default.jpg";
+    if (photoPath.startsWith("http")) return photoPath;
+
     return `https://modelshostesses.com/api${
-      photo.startsWith("/") ? "" : "/"
-    }${photo}`;
+      photoPath.startsWith("/") ? "" : "/"
+    }${photoPath}`;
   };
 
   const handleSave = () => {
@@ -313,7 +369,7 @@ export default function ModelModal({
                 />
               </div>
 
-              <div className="border-t pt-4">
+              {/* <div className="border-t pt-4">
                 <h3 className="text-lg font-medium text-gray-900 mb-2">
                   Emergency Contact
                 </h3>
@@ -370,7 +426,7 @@ export default function ModelModal({
                     />
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           )}
 
@@ -379,43 +435,78 @@ export default function ModelModal({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
-                    Height
+                    Height (cm)
                   </label>
                   <input
-                    type="text"
-                    value={editedModel.height}
-                    onChange={(e) =>
-                      setEditedModel({ ...editedModel, height: e.target.value })
-                    }
-                    disabled={!isEditing}
-                    className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 disabled:bg-gray-100"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Weight
-                  </label>
-                  <input
-                    type="text"
-                    value={editedModel.weight}
-                    onChange={(e) =>
-                      setEditedModel({ ...editedModel, weight: e.target.value })
-                    }
-                    disabled={!isEditing}
-                    className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 disabled:bg-gray-100"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Shoe Size
-                  </label>
-                  <input
-                    type="text"
-                    value={editedModel.shoe_size}
+                    type="number"
+                    value={editedModel.measurements.height || ""}
                     onChange={(e) =>
                       setEditedModel({
                         ...editedModel,
-                        shoe_size: e.target.value,
+                        measurements: {
+                          ...editedModel.measurements,
+                          height: parseInt(e.target.value) || 0,
+                        },
+                      })
+                    }
+                    disabled={!isEditing}
+                    className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 disabled:bg-gray-100"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Weight (kg)
+                  </label>
+                  <input
+                    type="number"
+                    value={editedModel.measurements.weight || ""}
+                    onChange={(e) =>
+                      setEditedModel({
+                        ...editedModel,
+                        measurements: {
+                          ...editedModel.measurements,
+                          weight: parseInt(e.target.value) || 0,
+                        },
+                      })
+                    }
+                    disabled={!isEditing}
+                    className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 disabled:bg-gray-100"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Hips (cm)
+                  </label>
+                  <input
+                    type="number"
+                    value={editedModel.measurements.hips || ""}
+                    onChange={(e) =>
+                      setEditedModel({
+                        ...editedModel,
+                        measurements: {
+                          ...editedModel.measurements,
+                          hips: parseInt(e.target.value) || 0,
+                        },
+                      })
+                    }
+                    disabled={!isEditing}
+                    className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 disabled:bg-gray-100"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Waist (cm)
+                  </label>
+                  <input
+                    type="number"
+                    value={editedModel.measurements.waist || ""}
+                    onChange={(e) =>
+                      setEditedModel({
+                        ...editedModel,
+                        measurements: {
+                          ...editedModel.measurements,
+                          waist: parseInt(e.target.value) || 0,
+                        },
                       })
                     }
                     disabled={!isEditing}
@@ -428,11 +519,14 @@ export default function ModelModal({
                   </label>
                   <input
                     type="text"
-                    value={editedModel.hair_color}
+                    value={editedModel.measurements.hair_color || ""}
                     onChange={(e) =>
                       setEditedModel({
                         ...editedModel,
-                        hair_color: e.target.value,
+                        measurements: {
+                          ...editedModel.measurements,
+                          hair_color: e.target.value,
+                        },
                       })
                     }
                     disabled={!isEditing}
@@ -445,11 +539,34 @@ export default function ModelModal({
                   </label>
                   <input
                     type="text"
-                    value={editedModel.eye_color}
+                    value={editedModel.measurements.eye_color || ""}
                     onChange={(e) =>
                       setEditedModel({
                         ...editedModel,
-                        eye_color: e.target.value,
+                        measurements: {
+                          ...editedModel.measurements,
+                          eye_color: e.target.value,
+                        },
+                      })
+                    }
+                    disabled={!isEditing}
+                    className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 disabled:bg-gray-100"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Experience
+                  </label>
+                  <input
+                    type="text"
+                    value={editedModel.measurements.experience || ""}
+                    onChange={(e) =>
+                      setEditedModel({
+                        ...editedModel,
+                        measurements: {
+                          ...editedModel.measurements,
+                          experience: e.target.value,
+                        },
                       })
                     }
                     disabled={!isEditing}
@@ -458,60 +575,78 @@ export default function ModelModal({
                 </div>
               </div>
 
-              {/* Profile Photo */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Profile Photo
-                </label>
-                <div className="w-32 h-32 rounded-lg overflow-hidden bg-gray-200">
-                  <Image
-                    src={getImageUrl(editedModel.photo)}
-                    alt="Profile"
-                    width={128}
-                    height={128}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </div>
+              {/* Profile Photos */}
+              {(() => {
+                // Parse the photos into an array using the imported function
+                const photoArray = parsePhotoArray(
+                  editedModel.measurements.photo
+                );
 
-              {/* Additional Photos */}
-              {editedModel.additional_photos &&
-                editedModel.additional_photos.length > 0 && (
+                return photoArray.length > 0 ? (
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Additional Photos
+                      Profile Photos ({photoArray.length} photos)
                     </label>
-                    <div className="grid grid-cols-4 gap-2">
-                      {editedModel.additional_photos.map((photo, index) => (
+
+                    {/* Display multiple photos in a grid */}
+                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                      {photoArray.map((photoPath, index) => (
                         <div
                           key={index}
-                          className="w-20 h-20 rounded-lg overflow-hidden bg-gray-200"
+                          className="relative w-full aspect-square rounded-lg overflow-hidden bg-gray-200 border group"
                         >
                           <Image
-                            src={getImageUrl(photo)}
-                            alt={`Additional photo ${index + 1}`}
-                            width={80}
-                            height={80}
-                            className="w-full h-full object-cover"
+                            src={getImageUrl(photoPath)}
+                            alt={`Profile photo ${index + 1}`}
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 16vw"
+                            onError={(e) => {
+                              e.currentTarget.src =
+                                "/Images/models/default.jpg";
+                            }}
                           />
+                          <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1 text-center transition-opacity group-hover:opacity-0">
+                            Photo {index + 1}
+                          </div>
                         </div>
                       ))}
                     </div>
                   </div>
-                )}
+                ) : (
+                  <div className="text-center py-8 text-gray-500 border-2 border-dashed border-gray-300 rounded-lg">
+                    <div className="w-16 h-16 mx-auto mb-2 bg-gray-200 rounded-full flex items-center justify-center">
+                      <svg
+                        className="w-8 h-8 text-gray-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                        />
+                      </svg>
+                    </div>
+                    No profile photos uploaded yet
+                  </div>
+                );
+              })()}
             </div>
           )}
 
           {activeTab === "documents" && (
             <div className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
+                {/* <div>
                   <label className="block text-sm font-medium text-gray-700">
                     Document Number
                   </label>
                   <input
                     type="text"
-                    value={editedModel.document_number}
+                    value={editedModel.documents.document_type}
                     onChange={(e) =>
                       setEditedModel({
                         ...editedModel,
@@ -521,18 +656,21 @@ export default function ModelModal({
                     disabled={!isEditing}
                     className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 disabled:bg-gray-100"
                   />
-                </div>
+                </div> */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
                     Document Type
                   </label>
                   <input
                     type="text"
-                    value={editedModel.document_type}
+                    value={editedModel.documents.document_type}
                     onChange={(e) =>
                       setEditedModel({
                         ...editedModel,
-                        document_type: e.target.value,
+                        documents: {
+                          ...editedModel.documents,
+                          document_type: e.target.value,
+                        },
                       })
                     }
                     disabled={!isEditing}
@@ -545,11 +683,14 @@ export default function ModelModal({
                   </label>
                   <input
                     type="text"
-                    value={editedModel.document_issuer_country}
+                    value={editedModel.documents.document_issuer_country}
                     onChange={(e) =>
                       setEditedModel({
                         ...editedModel,
-                        document_issuer_country: e.target.value,
+                        documents: {
+                          ...editedModel.documents,
+                          document_issuer_country: e.target.value,
+                        },
                       })
                     }
                     disabled={!isEditing}
@@ -560,14 +701,14 @@ export default function ModelModal({
 
               {/* Document Images */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {editedModel.document_front && (
+                {editedModel.documents.document_front && (
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Document Front
                     </label>
                     <div className="w-full h-48 rounded-lg overflow-hidden bg-gray-200">
                       <Image
-                        src={getImageUrl(editedModel.document_front)}
+                        src={getImageUrl(editedModel.documents.document_front)}
                         alt="Document Front"
                         width={400}
                         height={200}
@@ -576,14 +717,14 @@ export default function ModelModal({
                     </div>
                   </div>
                 )}
-                {editedModel.document_back && (
+                {editedModel.documents.document_back && (
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Document Back
                     </label>
                     <div className="w-full h-48 rounded-lg overflow-hidden bg-gray-200">
                       <Image
-                        src={getImageUrl(editedModel.document_back)}
+                        src={getImageUrl(editedModel.documents.document_back)}
                         alt="Document Back"
                         width={400}
                         height={200}
@@ -595,14 +736,16 @@ export default function ModelModal({
               </div>
 
               {/* Selfie with ID */}
-              {editedModel.selfie_with_id && (
+              {editedModel.identity_check.selfie_with_id && (
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Selfie with ID
                   </label>
                   <div className="w-48 h-48 rounded-lg overflow-hidden bg-gray-200">
                     <Image
-                      src={getImageUrl(editedModel.selfie_with_id)}
+                      src={getImageUrl(
+                        editedModel.identity_check.selfie_with_id
+                      )}
                       alt="Selfie with ID"
                       width={200}
                       height={200}
@@ -623,11 +766,14 @@ export default function ModelModal({
                   </label>
                   <input
                     type="text"
-                    value={editedModel.social_instagram}
+                    value={editedModel.measurements.social_instagram}
                     onChange={(e) =>
                       setEditedModel({
                         ...editedModel,
-                        social_instagram: e.target.value,
+                        measurements: {
+                          ...editedModel.measurements,
+                          social_instagram: e.target.value,
+                        },
                       })
                     }
                     disabled={!isEditing}
@@ -640,11 +786,14 @@ export default function ModelModal({
                   </label>
                   <input
                     type="text"
-                    value={editedModel.social_facebook}
+                    value={editedModel.measurements.social_facebook}
                     onChange={(e) =>
                       setEditedModel({
                         ...editedModel,
-                        social_facebook: e.target.value,
+                        measurements: {
+                          ...editedModel.measurements,
+                          social_facebook: e.target.value,
+                        },
                       })
                     }
                     disabled={!isEditing}
@@ -657,11 +806,14 @@ export default function ModelModal({
                   </label>
                   <input
                     type="text"
-                    value={editedModel.social_twitter}
+                    value={editedModel.measurements.social_twitter}
                     onChange={(e) =>
                       setEditedModel({
                         ...editedModel,
-                        social_twitter: e.target.value,
+                        measurements: {
+                          ...editedModel.measurements,
+                          social_twitter: e.target.value,
+                        },
                       })
                     }
                     disabled={!isEditing}
@@ -674,11 +826,14 @@ export default function ModelModal({
                   </label>
                   <input
                     type="text"
-                    value={editedModel.social_linkedin}
+                    value={editedModel.measurements.social_linkedin}
                     onChange={(e) =>
                       setEditedModel({
                         ...editedModel,
-                        social_linkedin: e.target.value,
+                        measurements: {
+                          ...editedModel.measurements,
+                          social_linkedin: e.target.value,
+                        },
                       })
                     }
                     disabled={!isEditing}

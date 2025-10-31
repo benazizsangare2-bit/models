@@ -54,8 +54,7 @@ export default function ModelRegistrationLayout() {
     eyeColor: "",
     waist: "",
     hips: "",
-    photo: null,
-    additionalPhotos: [],
+    photo: [],
     socialMedia: {
       instagram: "",
       facebook: "",
@@ -165,10 +164,8 @@ export default function ModelRegistrationLayout() {
         formDataObj.append("waist", formData.waist);
         formDataObj.append("hips", formData.hips);
 
-        if (formData.photo) formDataObj.append("photo", formData.photo);
-        formData.additionalPhotos.forEach((file) =>
-          formDataObj.append("additionalPhotos", file)
-        );
+        if (formData.photo)
+          formData.photo.forEach((file) => formDataObj.append("photo", file));
 
         const res = await fetch(
           "https://modelshostesses.com/api/api/models/measurements",

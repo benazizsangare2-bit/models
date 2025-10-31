@@ -1,12 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useTranslations } from "next-intl";
 import ModelModal from "./ModelModal";
 import ModelCard from "./ModelCard";
+import { useRouter } from "next/navigation";
+import { useLocale } from "next-intl";
 
 interface Model {
   id: string;
+  user_id: string;
   first_name: string;
   last_name: string;
   username: string;
@@ -18,33 +20,50 @@ interface Model {
   street: string;
   city: string;
   residence_country: string;
-  emergency_contact_name: string;
-  emergency_contact_relationship: string;
-  emergency_contact_phone: string;
-  height: string;
-  weight: string;
-  shoe_size: string;
-  hair_color: string;
-  eye_color: string;
-  photo: string;
-  additional_photos: string[];
-  social_instagram: string;
-  social_facebook: string;
-  social_twitter: string;
-  social_linkedin: string;
-  document_number: string;
-  document_issuer_country: string;
-  document_type: string;
-  document_front: string;
-  document_back: string;
-  selfie_with_id: string;
   status: "pending" | "approved" | "rejected";
+  registration_step: number;
+  deleted: boolean;
   created_at: string;
   updated_at: string;
+
+  // Nested objects
+  user_info: {
+    fullname: string;
+    email: string;
+    phone: string;
+  };
+
+  measurements: {
+    experience: string;
+    height: number;
+    weight: number;
+    hips: number;
+    waist: number;
+    hair_color: string;
+    eye_color: string;
+    photo: string[]; // This might be a string array if multiple photos
+    social_instagram: string;
+    social_facebook: string;
+    social_twitter: string;
+    social_linkedin: string;
+  };
+
+  documents: {
+    document_issuer_country: string;
+    document_type: string;
+    document_front: string;
+    document_back: string;
+  };
+
+  identity_check: {
+    selfie_with_id: string;
+    verified: boolean;
+  };
 }
 
 export default function ModelsManagement() {
-  const t = useTranslations();
+  const router = useRouter();
+  const locale = useLocale();
   const [models, setModels] = useState<Model[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -56,13 +75,25 @@ export default function ModelsManagement() {
   const [searchTerm, setSearchTerm] = useState("");
   const [actionLoading, setActionLoading] = useState<string | null>(null);
 
+  useEffect(() => {
+    const adminToken = localStorage.getItem("adminToken");
+    if (!adminToken) {
+      // Redirect to admin login if not authenticated
+      router.push(`/${locale}/admin`);
+      return;
+    }
+
+    // Only fetch models if admin is authenticated
+    fetchModels();
+  }, [statusFilter, router]);
+
   // Fetch models from API
   const fetchModels = async () => {
     try {
       setLoading(true);
       setError(null);
 
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("adminToken");
       if (!token) {
         throw new Error("Authentication required");
       }
@@ -73,6 +104,7 @@ export default function ModelsManagement() {
       }
 
       const response = await fetch(
+        // `https://modelshostesses.com/api/api/admin/models?${params.toString()}`,
         `https://modelshostesses.com/api/api/admin/models?${params.toString()}`,
         {
           method: "GET",
@@ -109,12 +141,13 @@ export default function ModelsManagement() {
   ) => {
     try {
       setActionLoading(modelId);
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("adminToken");
       if (!token) {
         throw new Error("Authentication required");
       }
 
       const response = await fetch(
+        //  `https://modelshostesses.com/api/api/admin/models/${modelId}/${action}`,
         `https://modelshostesses.com/api/api/admin/models/${modelId}/${action}`,
         {
           method: "POST",
@@ -156,13 +189,14 @@ export default function ModelsManagement() {
     }
 
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("adminToken");
       if (!token) {
         throw new Error("Authentication required");
       }
 
       const response = await fetch(
-        `https://modelshostesses.com/api/api/models/${modelId}`,
+        // `https://modelshostesses.com/api/api/models/${modelId}`,
+        `https://modelshostesses.com/api/api/admin/models/${modelId}`,
         {
           method: "DELETE",
           headers: {
@@ -190,13 +224,14 @@ export default function ModelsManagement() {
     updatedData: Partial<Model>
   ) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("adminToken");
       if (!token) {
         throw new Error("Authentication required");
       }
 
       const response = await fetch(
-        `https://modelshostesses.com/api/api/models/${modelId}`,
+        // `https://modelshostesses.com/api/api/models/${modelId}`,
+        `https://modelshostesses.com/api/api/admin/models/${modelId}`,
         {
           method: "PUT",
           headers: {

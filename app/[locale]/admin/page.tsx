@@ -1,14 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import ModelsManagement from "./components/ModelsManagement";
 import HostessesManagement from "./components/HostessesManagement";
+import { adminLogout } from "./utils/adminLogout";
 
 export default function AdminPage() {
-  const t = useTranslations();
+  const locale = useLocale();
   const [activeTab, setActiveTab] = useState<"models" | "hostesses">("models");
   const [isLoading, setIsLoading] = useState(false);
+
+  // Create a wrapper function that uses the current locale
+  const handleLogout = () => {
+    adminLogout(locale);
+  };
 
   const tabs = [
     { id: "models", label: "Models", count: 0 },
@@ -24,6 +30,12 @@ export default function AdminPage() {
             <h1 className="text-3xl font-bold text-gray-900">
               Admin Dashboard
             </h1>
+            <button
+              onClick={handleLogout}
+              className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+            >
+              Logout
+            </button>
             <p className="mt-2 text-gray-600">
               Manage models and hostesses registrations
             </p>

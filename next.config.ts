@@ -5,11 +5,14 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
+    //  domains: ["192.168.1.87"], // Add your backend's IP or hostname here
+    domains: ["modelshostesses.com"], // Add your backend's IP or hostname here
+
     remotePatterns: [
       {
         protocol: "http",
-        hostname: "192.168.137.223",
-        port: "6060",
+        hostname: "192.168.1.87",
+        port: "6061",
         pathname: "/**",
       },
       {
@@ -43,12 +46,6 @@ const nextConfig: NextConfig = {
         pathname: "/**",
       },
     ],
-  },
-  env: {
-    BACKEND_URL:
-      process.env.NODE_ENV === "production"
-        ? "https://modelshostesses.com/api" // Use your Nginx proxy
-        : "http://192.168.137.223:6060",
   },
 };
 

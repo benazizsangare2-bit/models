@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import Footer from "@/app/components/footer";
@@ -25,6 +24,7 @@ export default function SignUp({ locale = "en" }: { locale: string }) {
 
     try {
       const res = await fetch(
+        //  "https://modelshostesses.com/api/register/start",
         "https://modelshostesses.com/api/register/start",
         {
           method: "POST",

@@ -101,7 +101,7 @@ export default function PersonalInfo({
             ...prev,
             email: data.user.email,
             username: data.user.username,
-            whatsapp: data.user.phone || "", // if backend adds phone later
+            whatsapp: data.user.phone_number || "", // if backend adds phone later
           }));
         }
       });

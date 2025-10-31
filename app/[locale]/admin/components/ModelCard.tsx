@@ -5,6 +5,7 @@ import Image from "next/image";
 
 interface Model {
   id: string;
+  user_id: string;
   first_name: string;
   last_name: string;
   username: string;
@@ -16,31 +17,46 @@ interface Model {
   street: string;
   city: string;
   residence_country: string;
-  emergency_contact_name: string;
-  emergency_contact_relationship: string;
-  emergency_contact_phone: string;
-  height: string;
-  weight: string;
-  shoe_size: string;
-  hair_color: string;
-  eye_color: string;
-  photo: string;
-  additional_photos: string[];
-  social_instagram: string;
-  social_facebook: string;
-  social_twitter: string;
-  social_linkedin: string;
-  document_number: string;
-  document_issuer_country: string;
-  document_type: string;
-  document_front: string;
-  document_back: string;
-  selfie_with_id: string;
   status: "pending" | "approved" | "rejected";
+  registration_step: number;
+  deleted: boolean;
   created_at: string;
   updated_at: string;
-}
 
+  // Nested objects
+  user_info: {
+    fullname: string;
+    email: string;
+    phone: string;
+  };
+
+  measurements: {
+    experience: string;
+    height: number;
+    weight: number;
+    hips: number;
+    waist: number;
+    hair_color: string;
+    eye_color: string;
+    photo: string[]; // This might be a string array if multiple photos
+    social_instagram: string;
+    social_facebook: string;
+    social_twitter: string;
+    social_linkedin: string;
+  };
+
+  documents: {
+    document_issuer_country: string;
+    document_type: string;
+    document_front: string;
+    document_back: string;
+  };
+
+  identity_check: {
+    selfie_with_id: string;
+    verified: boolean;
+  };
+}
 interface ModelCardProps {
   model: Model;
   onView: () => void;
@@ -74,12 +90,33 @@ export default function ModelCard({
     }
   };
 
-  const getImageUrl = (photo: string) => {
+  const getImageUrl = (photo: string | string[]) => {
     if (!photo) return "/Images/models/default.jpg";
-    if (photo.startsWith("http")) return photo;
+    let photoPath = "";
+
+    // Case 1: array
+    if (Array.isArray(photo)) {
+      photoPath = photo[0];
+    }
+    // Case 2: serialized JSON string like '{"uploads/...jpg","uploads/...jpg"}'
+    else if (photo.startsWith("{")) {
+      try {
+        const parsed = JSON.parse(photo.replace(/'/g, '"')); // make sure JSON is valid
+        photoPath = Array.isArray(parsed) ? parsed[0] : parsed;
+      } catch {
+        // fallback: clean manually
+        photoPath = photo.split(",")[0].replace(/[{}"]/g, "").trim();
+      }
+    }
+    // Case 3: normal string
+    else {
+      photoPath = photo;
+    }
+    if (photoPath.startsWith("http")) return photoPath;
+    // return `https://modelshostesses.com/api${photo.startsWith("/") ? "" : "/" }${photo}`; };
     return `https://modelshostesses.com/api${
-      photo.startsWith("/") ? "" : "/"
-    }${photo}`;
+      photoPath.startsWith("/") ? "" : "/"
+    }${photoPath}`;
   };
 
   return (
@@ -90,7 +127,7 @@ export default function ModelCard({
           <div className="w-16 h-16 rounded-lg overflow-hidden bg-gray-200">
             {!imageError ? (
               <Image
-                src={getImageUrl(model.photo)}
+                src={getImageUrl(model.measurements.photo)}
                 alt={`${model.first_name} ${model.last_name}`}
                 width={64}
                 height={64}
@@ -149,39 +186,41 @@ export default function ModelCard({
             </div>
             <div>
               <span className="font-medium">Height:</span>{" "}
-              {model.height || "N/A"}
+              {model.measurements.height}
             </div>
             <div>
               <span className="font-medium">Weight:</span>{" "}
-              {model.weight || "N/A"}
+              {model.measurements.weight || "N/A"}
             </div>
             <div>
               <span className="font-medium">Hair Color:</span>{" "}
-              {model.hair_color || "N/A"}
+              {model.measurements.hair_color || "N/A"}
             </div>
             <div>
               <span className="font-medium">Eye Color:</span>{" "}
-              {model.eye_color || "N/A"}
+              {model.measurements.eye_color || "N/A"}
             </div>
             <div>
               <span className="font-medium">Document Type:</span>{" "}
-              {model.document_type}
+              {model.documents.document_type}
             </div>
             <div>
               <span className="font-medium">Instagram:</span>{" "}
-              {model.social_instagram ? "@" + model.social_instagram : "N/A"}
+              {model.measurements.social_instagram
+                ? "@" + model.measurements.social_instagram
+                : "N/A"}
             </div>
             <div>
               <span className="font-medium">Facebook:</span>{" "}
-              {model.social_facebook || "N/A"}
+              {model.measurements.social_facebook || "N/A"}
             </div>
             <div>
               <span className="font-medium">Twitter:</span>{" "}
-              {model.social_twitter || "N/A"}
+              {model.measurements.social_twitter || "N/A"}
             </div>
             <div>
               <span className="font-medium">LinkedIn:</span>{" "}
-              {model.social_linkedin || "N/A"}
+              {model.measurements.social_linkedin || "N/A"}
             </div>
           </div>
 
@@ -191,10 +230,10 @@ export default function ModelCard({
 
           {/* Document and Selfie Images */}
           <div className="mt-3 flex space-x-2">
-            {model.document_front && (
+            {model.documents.document_front && (
               <div className="w-16 h-12 rounded border overflow-hidden bg-gray-100">
                 <Image
-                  src={getImageUrl(model.document_front)}
+                  src={getImageUrl(model.documents.document_front)}
                   alt="Document Front"
                   width={64}
                   height={48}
@@ -202,10 +241,10 @@ export default function ModelCard({
                 />
               </div>
             )}
-            {model.document_back && (
+            {model.documents.document_back && (
               <div className="w-16 h-12 rounded border overflow-hidden bg-gray-100">
                 <Image
-                  src={getImageUrl(model.document_back)}
+                  src={getImageUrl(model.documents.document_back)}
                   alt="Document Back"
                   width={64}
                   height={48}
@@ -213,10 +252,10 @@ export default function ModelCard({
                 />
               </div>
             )}
-            {model.selfie_with_id && (
+            {model.identity_check.selfie_with_id && (
               <div className="w-16 h-12 rounded border overflow-hidden bg-gray-100">
                 <Image
-                  src={getImageUrl(model.selfie_with_id)}
+                  src={getImageUrl(model.identity_check.selfie_with_id)}
                   alt="Selfie with ID"
                   width={64}
                   height={48}
@@ -224,22 +263,23 @@ export default function ModelCard({
                 />
               </div>
             )}
-            {model.additional_photos && model.additional_photos.length > 0 && (
-              <div className="relative w-16 h-12 rounded border overflow-hidden bg-gray-100">
-                <Image
-                  src={getImageUrl(model.additional_photos[0])}
-                  alt="Additional Photo"
-                  width={64}
-                  height={48}
-                  className="w-full h-full object-cover"
-                />
-                {model.additional_photos.length > 1 && (
-                  <div className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                    +{model.additional_photos.length - 1}
-                  </div>
-                )}
-              </div>
-            )}
+            {model.measurements.photo &&
+              model.measurements.photo.length > 0 && (
+                <div className="relative w-16 h-12 rounded border overflow-hidden bg-gray-100">
+                  <Image
+                    src={getImageUrl(model.measurements.photo)}
+                    alt="Additional Photo"
+                    width={64}
+                    height={48}
+                    className="w-full h-full object-cover"
+                  />
+                  {model.measurements.photo.length > 1 && (
+                    <div className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                      +{model.measurements.photo.length - 1}
+                    </div>
+                  )}
+                </div>
+              )}
           </div>
         </div>
 

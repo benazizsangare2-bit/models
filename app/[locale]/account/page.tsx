@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 export default function AccountPage() {
   const locale = useLocale();
@@ -118,7 +118,7 @@ export default function AccountPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-rose-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-rose-50 py-25 px-4 sm:px-6 lg:px-8">
       <motion.div
         variants={containerVariants}
         initial="hidden"
@@ -217,13 +217,6 @@ export default function AccountPage() {
                 icon: "✏️",
               },
               {
-                href: `/${locale}/applications/edit`,
-                title: t("editApplications"),
-                description: "Manage your applications",
-                gradient: "from-pink-400 to-pink-600",
-                icon: "📝",
-              },
-              {
                 href: `/${locale}/applications/view`,
                 title: t("viewApplications"),
                 description: "View all applications",
@@ -307,8 +300,64 @@ export default function AccountPage() {
         >
           <button
             onClick={() => {
-              localStorage.removeItem("token");
-              router.push(`/${locale}/login`);
+              // Create custom alert dialog
+              const alertBox = document.createElement("div");
+              alertBox.className =
+                "fixed inset-0 bg-pink-100 flex items-center justify-center z-50";
+              alertBox.innerHTML = `
+      <div class="bg-white rounded-2xl p-6 max-w-sm mx-4 shadow-xl transform transition-all">
+        <div class="text-center">
+          <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">${t(
+            "logoutConfirm"
+          )}</h3>
+          <p class="text-gray-600 mb-6">${t("logoutConfirmMessage")}</p>
+          <div class="flex space-x-3">
+            <button id="cancelLogout" class="flex-1 bg-gray-100 text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-gray-200 transition-colors duration-200">
+              ${t("No")}
+            </button>
+            <button id="confirmLogout" class="flex-1 bg-red-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-red-700 transition-colors duration-200">
+              ${t("Yes")}
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+
+              document.body.appendChild(alertBox);
+
+              // Add event listeners with null checks
+              const cancelButton = document.getElementById("cancelLogout");
+              const confirmButton = document.getElementById("confirmLogout");
+
+              if (cancelButton) {
+                cancelButton.onclick = () => {
+                  if (document.body.contains(alertBox)) {
+                    document.body.removeChild(alertBox);
+                  }
+                };
+              }
+
+              if (confirmButton) {
+                confirmButton.onclick = () => {
+                  localStorage.removeItem("token");
+                  if (document.body.contains(alertBox)) {
+                    document.body.removeChild(alertBox);
+                  }
+                  router.push(`/${locale}/login`);
+                };
+              }
+
+              // Close on backdrop click
+              alertBox.onclick = (e) => {
+                if (e.target === alertBox && document.body.contains(alertBox)) {
+                  document.body.removeChild(alertBox);
+                }
+              };
             }}
             className="inline-flex items-center space-x-2 bg-gray-800 text-white px-8 py-4 rounded-xl font-medium hover:bg-gray-900 transition-all duration-300 shadow-md hover:shadow-lg group"
           >

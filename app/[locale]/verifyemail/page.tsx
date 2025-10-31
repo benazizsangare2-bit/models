@@ -21,6 +21,7 @@ export default function VerifyEmail({ locale = "en" }: { locale: string }) {
 
     try {
       const res = await fetch(
+        //   "https://modelshostesses.com/api/register/verify",
         "https://modelshostesses.com/api/register/verify",
         {
           method: "POST",
