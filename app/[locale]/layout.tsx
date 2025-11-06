@@ -3,6 +3,8 @@ import { NextIntlClientProvider } from "next-intl";
 import ClientTransition from "../components/ClientTransition";
 import { getMessages } from "next-intl/server";
 import Header from "../components/Header";
+import GoogleAnalytics from "../components/analytics";
+import { AnalyticsTracker } from "../components/analyticsTracker";
 
 export const metadata: Metadata = {
   title: "Models & Hostesses",
@@ -24,6 +26,8 @@ export default async function LocaleLayout({
 
   return (
     <NextIntlClientProvider messages={messages}>
+      <GoogleAnalytics />
+      <AnalyticsTracker />
       <Header locale={locale} />
       <ClientTransition locale={locale}>{children}</ClientTransition>
     </NextIntlClientProvider>
