@@ -21,7 +21,6 @@ export default function VerifyEmail({ locale = "en" }: { locale: string }) {
 
     try {
       const res = await fetch(
-        //   "https://modelshostesses.com/api/register/verify",
         "https://modelshostesses.com/api/register/verify",
         {
           method: "POST",
@@ -56,6 +55,13 @@ export default function VerifyEmail({ locale = "en" }: { locale: string }) {
           <p className="text-pink-300 text-center mb-6">
             {t("signup.messages.emailSent", { email })}
           </p>
+
+          {/* Spam folder advice */}
+          <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-6 text-sm">
+            <p className="font-medium">{t("signup.messages.checkSpam")}</p>
+            <p className="mt-1">{t("signup.messages.spamAdvice")}</p>
+          </div>
+
           <form onSubmit={handleSubmit} className="space-y-6">
             {error && (
               <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">

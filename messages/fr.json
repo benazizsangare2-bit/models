@@ -94,7 +94,9 @@
       "registrationCompleted": "Inscription terminée ! Vous pouvez maintenant vous connecter.",
       "invalidOtp": "Code de vérification invalide",
       "networkError": "Erreur réseau. Veuillez réessayer.",
-      "registrationFailed": "Échec de l'inscription"
+      "registrationFailed": "Échec de l'inscription",
+      "checkSpam": "Vous ne trouvez pas le code de vérification ?",
+      "spamAdvice": "Veuillez vérifier votre dossier spam ou courrier indésirable, car l'email a pu être filtré là."
     }
   },
   "login": {

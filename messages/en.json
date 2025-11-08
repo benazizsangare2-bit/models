@@ -94,7 +94,9 @@
       "registrationCompleted": "Registration completed! You can log in now.",
       "invalidOtp": "Invalid verification code",
       "networkError": "Network error. Please try again.",
-      "registrationFailed": "Failed to complete registration"
+      "registrationFailed": "Failed to complete registration",
+      "checkSpam": "Can't find the verification code?",
+      "spamAdvice": "Please check your spam or junk folder as the email might have been filtered there."
     }
   },
   "login": {
